@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0B1530">
+<title>Pozea – Fotografer pribadi AI-mu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<div style="font-family: 'Inter', sans-serif; color: #0B1530; background: #FFFFFF">
+
+<!-- NAV -->
+<header style="position: sticky; top: 0; z-index: 50; background: #0B1530; box-shadow: 0 1px 0 #1E2A52">
+<nav class="pz-nav" aria-label="Utama" style="max-width: 1200px; margin: 0 auto; padding: 20px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
+<a href="#top" style="display: flex; align-items: center; gap: 10px; text-decoration: none">
+<svg width="34" height="34" viewBox="0 0 120 120" role="img" aria-label="Pozea"><g fill="none" stroke="#4D78FF" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"><path d="M12 40 V26 Q12 12 26 12 H40"></path><path d="M12 80 V94 Q12 108 26 108 H40"></path><path d="M80 108 H94 Q108 108 108 94 V80"></path></g><path d="M95 8 Q97.5 22.5 112 25 Q97.5 27.5 95 42 Q92.5 27.5 78 25 Q92.5 22.5 95 8 Z" fill="#19D38A"></path><circle cx="60" cy="50" r="14" fill="#19D38A"></circle><path d="M33 94 C33 77 45 70 60 70 C75 70 87 77 87 94 Z" fill="#19D38A"></path></svg>
+<span class="pz-logo-text" style="font-family: 'Sora', sans-serif; font-weight: 700; font-size: 26px; letter-spacing: -0.05em; color: #FFFFFF">pozea</span>
+</a>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 24px">
+<a class="pz-link" href="#how" style="color: #C9D2EA; text-decoration: none; font-size: 15px; font-weight: 500; padding: 10px 0">Cara kerja</a>
+<a class="pz-link" href="#features" style="color: #C9D2EA; text-decoration: none; font-size: 15px; font-weight: 500; padding: 10px 0">Fitur</a>
+<a class="pz-link" href="#use-cases" style="color: #C9D2EA; text-decoration: none; font-size: 15px; font-weight: 500; padding: 10px 0">Untuk siapa</a>
+<a class="pz-link" href="#faq" style="color: #C9D2EA; text-decoration: none; font-size: 15px; font-weight: 500; padding: 10px 0">FAQ</a>
+<a class="pz-cta" href="#waitlist" style="display: inline-flex; align-items: center; height: 44px; padding: 0 20px; border-radius: 999px; background: #2B59FF; color: #FFFFFF; text-decoration: none; font-size: 15px; font-weight: 700">Gabung waitlist</a>
+</div>
+</nav>
+</header>
+
+<!-- HERO -->
+<section id="top" style="background: #0B1530; color: #FFFFFF; padding: 48px 24px 96px">
+<div class="pz-split" style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 56px">
+<div style="flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 24px">
+<span style="align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; border: 1.5px solid #2E3B66; font-size: 14px; font-weight: 600; color: #C9D2EA"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 Q13.2 10.8 22 12 Q13.2 13.2 12 22 Q10.8 13.2 2 12 Q10.8 10.8 12 2 Z" fill="#19D38A"></path></svg>Segera hadir · Akses awal</span>
+<h1 style="margin: 0; font-family: 'Sora', sans-serif; font-weight: 800; font-size: clamp(44px, 6vw, 80px); line-height: 1.02; letter-spacing: -0.045em">Fotografer pribadimu,<br><span class="pz-gtext">selalu ada di sakumu.</span></h1>
+<p style="margin: 0; max-width: 560px; font-size: clamp(18px, 1.6vw, 21px); line-height: 1.6; color: #C9D2EA">Tampil percaya diri di setiap foto. Pozea adalah fotografer AI-mu yang menunjukkan ke mana harus pergi, bagaimana berpose, dan kapan memotret, langsung di kameramu.</p>
+
+<div class="js-wl-form" style="display: contents">
+<form class="js-waitlist" novalidate style="display: flex; flex-wrap: wrap; gap: 10px; max-width: 560px">
+<label for="email-hero" class="sr-only">Alamat email</label>
+<input id="email-hero" type="email" autocomplete="email" placeholder="kamu@email.com" name="email" required style="flex: 1 1 260px; min-width: 0; height: 56px; box-sizing: border-box; padding: 0 20px; border-radius: 16px; border: 1.5px solid #2E3B66; background: #121D3D; color: #FFFFFF; font-size: 16px">
+<button type="submit" style="flex: 0 0 auto; height: 56px; padding: 0 26px; border: 0; border-radius: 16px; background: #2B59FF; color: #FFFFFF; font-size: 16px; font-weight: 700">Gabung waitlist</button>
+</form>
+<p role="alert" class="js-wl-error" style="margin: 0; font-size: 14px; font-weight: 600; color: #FF8080" hidden></p>
+<p style="margin: 0; font-size: 14px; color: #9AA6C2">Jadilah yang pertama tahu saat Pozea rilis. Tanpa spam, cuma satu email.</p>
+</div>
+<div class="js-wl-done" style="display: contents" hidden>
+<div role="status" style="max-width: 560px; display: flex; align-items: center; gap: 12px; padding: 16px 20px; border-radius: 16px; background: #12324A; border: 1.5px solid #19D38A">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#19D38A" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>
+<span style="font-size: 16px; font-weight: 600">Kamu sudah terdaftar! Kami akan mengirim email begitu Pozea rilis.</span>
+</div>
+</div>
+</div>
+
+<div style="flex: 0 1 340px; min-width: 0; display: flex; justify-content: center; margin: 0 auto">
+<div class="pz-phone" style="width: 320px; max-width: 100%; box-sizing: border-box; padding: 10px; border-radius: 48px; background: #1A2340; box-shadow: 0 0 90px rgba(43,89,255,0.45)">
+<div style="position: relative; aspect-ratio: 300 / 640; border-radius: 40px; overflow: hidden; background: #1E2533">
+<video src="assets/video/hero.mp4" poster="assets/img/hero-poster.jpg" autoplay muted loop playsinline preload="auto" aria-label="Demo kamera Pozea: pilih gaya pose peace sign, outline berwarna merah saat pose belum pas dan tips AI membantu memperbaikinya, lalu menyala biru ke hijau saat pose cocok dan foto diambil" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; display: block"></video>
+<div class="pz-ring" aria-hidden="true"><div class="pz-spin"></div></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- POSE LIBRARY -->
+<section id="poses" style="background: #FFFFFF; padding: 96px 24px">
+<svg width="0" height="0" style="position: absolute" aria-hidden="true" focusable="false"><defs><filter id="pzOut" filterUnits="userSpaceOnUse" x="-40" y="-40" width="280" height="360" color-interpolation-filters="sRGB"><feMorphology in="SourceAlpha" operator="dilate" radius="2.2" result="d"></feMorphology><feComposite in="d" in2="SourceAlpha" operator="out" result="ring"></feComposite><feFlood flood-color="#FFFFFF" result="w"></feFlood><feComposite in="w" in2="ring" operator="in" result="whiteRing"></feComposite><feGaussianBlur in="d" stdDeviation="11" result="b1"></feGaussianBlur><feFlood flood-color="#2B59FF" flood-opacity="0.95" result="c1"></feFlood><feComposite in="c1" in2="b1" operator="in" result="g1"></feComposite><feGaussianBlur in="d" stdDeviation="4" result="b2"></feGaussianBlur><feFlood flood-color="#22E0A0" flood-opacity="0.85" result="c2"></feFlood><feComposite in="c2" in2="b2" operator="in" result="g2"></feComposite><feMerge result="glows"><feMergeNode in="g1"></feMergeNode><feMergeNode in="g2"></feMergeNode></feMerge><feComposite in="glows" in2="SourceAlpha" operator="out" result="glowOut"></feComposite><feMerge><feMergeNode in="glowOut"></feMergeNode><feMergeNode in="whiteRing"></feMergeNode></feMerge></filter></defs></svg>
+<div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px">
+<div style="max-width: 760px; display: flex; flex-direction: column; gap: 16px">
+<span style="font-size: 14px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #1A3FD1">Koleksi pose</span>
+<h2 style="margin: 0; font-family: 'Sora', sans-serif; font-weight: 700; font-size: clamp(32px, 4vw, 52px); line-height: 1.1; letter-spacing: -0.035em">Apa pun fotonya, selalu ada pose yang pas.</h2>
+<p style="margin: 0; font-size: 18px; line-height: 1.6; color: #3B4A6B">Berdiri, duduk, selfie, dari belakang, atau berdua. Pilih kategorinya lalu ikuti garis outline yang menyala di kameramu.</p>
+</div>
+<div class="pz-grid pz-poses" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr)); gap: 16px">
+
+<div style="display: flex; flex-direction: column; gap: 14px">
+<div style="position: relative; height: 340px; border-radius: 24px; overflow: hidden; background: radial-gradient(120% 80% at 50% 0%, #1B2B63 0%, #0E1A3C 62%); display: flex; align-items: center; justify-content: center">
+<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="position: absolute; top: 16px; right: 16px"><path d="M12 2 Q13.2 10.8 22 12 Q13.2 13.2 12 22 Q10.8 13.2 2 12 Q10.8 10.8 12 2 Z" fill="#19D38A"></path></svg>
+<video src="assets/video/pose-standing.mp4" poster="assets/img/pose-standing-poster.jpg" autoplay muted loop playsinline preload="auto" aria-label="Demo: outline pose bergeser ke seorang pria di depan Lakone Pizza, menyala saat pose cocok, lalu foto diambil" style="width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; display: block"></video>
+</div>
+<div><h3 style="margin: 0; font-size: 20px; font-weight: 700">Berdiri</h3><p style="margin: 4px 0 0; font-size: 15px; line-height: 1.5; color: #3B4A6B">Tumpuan badan, posisi tangan, dan sudut yang terlihat natural.</p></div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 14px">
+<div style="position: relative; height: 340px; border-radius: 24px; overflow: hidden; background: radial-gradient(120% 80% at 50% 0%, #1B2B63 0%, #0E1A3C 62%); display: flex; align-items: center; justify-content: center">
+<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="position: absolute; top: 16px; right: 16px"><path d="M12 2 Q13.2 10.8 22 12 Q13.2 13.2 12 22 Q10.8 13.2 2 12 Q10.8 10.8 12 2 Z" fill="#19D38A"></path></svg>
+<video src="assets/video/pose-sitting.mp4" poster="assets/img/pose-sitting-poster.jpg" autoplay muted loop playsinline preload="auto" aria-label="Demo: outline pose jongkok bergeser ke seorang wanita berhijab yang berjongkok di bawah matahari, menyala saat pose cocok, lalu foto diambil" style="width: 100%; height: 100%; object-fit: cover; object-position: 50% 55%; display: block"></video>
+</div>
+<div><h3 style="margin: 0; font-size: 20px; font-weight: 700">Duduk</h3><p style="margin: 4px 0 0; font-size: 15px; line-height: 1.5; color: #3B4A6B">Posisi kaki, tangan, dan postur saat duduk di tepian atau kursi.</p></div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 14px">
+<div style="position: relative; height: 340px; border-radius: 24px; overflow: hidden; background: radial-gradient(120% 80% at 50% 0%, #1B2B63 0%, #0E1A3C 62%); display: flex; align-items: center; justify-content: center">
+<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="position: absolute; top: 16px; right: 16px"><path d="M12 2 Q13.2 10.8 22 12 Q13.2 13.2 12 22 Q10.8 13.2 2 12 Q10.8 10.8 12 2 Z" fill="#19D38A"></path></svg>
+<video src="assets/video/pose-selfie.mp4" poster="assets/img/pose-selfie-poster.jpg" autoplay muted loop playsinline preload="auto" aria-label="Demo: outline pose selfie bergeser ke seorang wanita yang berswafoto di cermin lift, menyala saat pose cocok, lalu foto diambil" style="width: 100%; height: 100%; object-fit: cover; object-position: 50% 45%; display: block"></video>
+</div>
+<div><h3 style="margin: 0; font-size: 20px; font-weight: 700">Selfie</h3><p style="margin: 4px 0 0; font-size: 15px; line-height: 1.5; color: #3B4A6B">Tinggi dan sudut ponsel untuk bingkai foto yang menawan.</p></div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 14px">
+<div style="position: relative; height: 340px; border-radius: 24px; overflow: hidden; background: radial-gradient(120% 80% at 50% 0%, #1B2B63 0%, #0E1A3C 62%); display: flex; align-items: center; justify-content: center">
+<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="position: absolute; top: 16px; right: 16px"><path d="M12 2 Q13.2 10.8 22 12 Q13.2 13.2 12 22 Q10.8 13.2 2 12 Q10.8 10.8 12 2 Z" fill="#19D38A"></path></svg>
+<video src="assets/video/pose-behind.mp4" poster="assets/img/pose-behind-poster.jpg" autoplay muted loop playsinline preload="auto" aria-label="Demo: outline pose dari belakang bergeser ke seorang pria yang duduk di tepi laut saat matahari terbenam, menyala saat pose cocok, lalu foto diambil" style="width: 100%; height: 100%; object-fit: cover; object-position: 40% 60%; display: block"></video>
+</div>
+<div><h3 style="margin: 0; font-size: 20px; font-weight: 700">Dari belakang</h3><p style="margin: 4px 0 0; font-size: 15px; line-height: 1.5; color: #3B4A6B">Foto saat berjalan menjauh dan menoleh dari balik bahu.</p></div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 14px">
+<div style="position: relative; height: 340px; border-radius: 24px; overflow: hidden; background: radial-gradient(120% 80% at 50% 0%, #1B2B63 0%, #0E1A3C 62%); display: flex; align-items: center; justify-content: center">
+<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="position: absolute; top: 16px; right: 16px"><path d="M12 2 Q13.2 10.8 22 12 Q13.2 13.2 12 22 Q10.8 13.2 2 12 Q10.8 10.8 12 2 Z" fill="#19D38A"></path></svg>
+<video src="assets/video/pose-together.mp4" poster="assets/img/pose-together-poster.jpg" autoplay muted loop playsinline preload="auto" aria-label="Demo: outline pose pasangan bergeser ke dua orang yang duduk bersama di bukit berumput, menyala saat pose cocok, lalu foto diambil" style="width: 100%; height: 100%; object-fit: cover; object-position: 50% 65%; display: block"></video>
+</div>
+<div><h3 style="margin: 0; font-size: 20px; font-weight: 700">Berdua</h3><p style="margin: 4px 0 0; font-size: 15px; line-height: 1.5; color: #3B4A6B">Untuk pasangan dan teman, dalam satu bingkai.</p></div>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- PROBLEM -->
+<section style="background: #F4F7FF; padding: 96px 24px">
+<div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px">
+<div style="max-width: 760px; display: flex; flex-direction: column; gap: 16px">
+<span style="font-size: 14px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #1A3FD1">Masalahnya</span>
+<h2 style="margin: 0; font-family: 'Sora', sans-serif; font-weight: 700; font-size: clamp(32px, 4vw, 52px); line-height: 1.1; letter-spacing: -0.035em">Kamu tidak butuh kamera yang lebih bagus. Kamu butuh arahan yang lebih baik.</h2>
+</div>
+<div class="pz-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: 16px">
+<div style="padding: 24px; border-radius: 22px; background: #FFFFFF; display: flex; flex-direction: column; gap: 10px"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2B59FF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="5" r="2.5"></circle><path d="M12 8v6M8 22l4-8 4 8M7 11h10"></path></svg><h3 style="margin: 0; font-size: 19px; font-weight: 700">Bingung mau pose apa</h3><p style="margin: 0; font-size: 16px; line-height: 1.55; color: #3B4A6B">Kamu jadi kaku di depan kamera dan berakhir dengan pose yang itu-itu saja.</p></div>
+<div style="padding: 24px; border-radius: 22px; background: #FFFFFF; display: flex; flex-direction: column; gap: 10px"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2B59FF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="13" rx="3"></rect><path d="M8 6l1.5-2.5h5L16 6"></path><path d="M3 3l18 18"></path></svg><h3 style="margin: 0; font-size: 19px; font-weight: 700">Sudut yang canggung</h3><p style="margin: 0; font-size: 16px; line-height: 1.55; color: #3B4A6B">Terlalu tinggi, terlalu dekat, kaki terpotong. Kesalahan kecil di bingkai bisa merusak momen yang indah.</p></div>
+<div style="padding: 24px; border-radius: 22px; background: #FFFFFF; display: flex; flex-direction: column; gap: 10px"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2B59FF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M8 15h8M9 9.5h.01M15 9.5h.01"></path></svg><h3 style="margin: 0; font-size: 19px; font-weight: 700">Foto terlihat dipaksakan</h3><p style="margin: 0; font-size: 16px; line-height: 1.55; color: #3B4A6B">Tanpa arahan, sulit terlihat natural, bahkan di tempat yang paling indah sekalipun.</p></div>
+<div style="padding: 24px; border-radius: 22px; background: #FFFFFF; display: flex; flex-direction: column; gap: 10px"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2B59FF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="7" r="3"></circle><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"></path><path d="M17 8l4 4M21 8l-4 4"></path></svg><h3 style="margin: 0; font-size: 19px; font-weight: 700">Tidak ada yang memotret</h3><p style="margin: 0; font-size: 16px; line-height: 1.55; color: #3B4A6B">Jalan-jalan sendirian, atau dengan teman yang bukan fotografer. Minta tolong orang asing itu untung-untungan.</p></div>
+</div>
+<p style="margin: 0; font-family: 'Sora', sans-serif; font-weight: 700; font-size: clamp(22px, 2.4vw, 30px); letter-spacing: -0.02em">Pozea mengatasi keempatnya, langsung di kameramu.</p>
+</div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how" style="background: #FFFFFF; padding: 96px 24px">
+<div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px">
+<div style="max-width: 760px; display: flex; flex-direction: column; gap: 16px">
+<span style="font-size: 14px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #1A3FD1">Cara kerja</span>
+<h2 style="margin: 0; font-family: 'Sora', sans-serif; font-weight: 700; font-size: clamp(32px, 4vw, 52px); line-height: 1.1; letter-spacing: -0.035em">Foto terbaikmu berikutnya dalam 3 langkah mudah.</h2>
+</div>
+<div class="pz-grid pz-steps" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 20px">
+<div style="display: flex; flex-direction: column; gap: 16px">
+<div class="pz-shot" style="width: 100%; aspect-ratio: 1 / 1; box-sizing: border-box; padding: 16px; border-radius: 24px; background: radial-gradient(120% 90% at 50% 0%, #1B2B63 0%, #0B1530 70%); color: #FFFFFF; display: flex; flex-direction: column; justify-content: space-evenly; gap: 10px; overflow: hidden">
+<div style="display: flex; flex-direction: column; gap: 8px"><span class="pz-lbl">Jenis foto</span><div class="pz-row" style="display: flex; flex-wrap: nowrap; gap: 6px"><span class="pz-chip pz-chip-on">Selfie</span><span class="pz-chip">Di kelas</span><span class="pz-chip">Liburan</span><span class="pz-chip">Pasangan</span><span class="pz-chip">Kafe</span><span class="pz-chip">OOTD</span><span class="pz-chip">Wisuda</span><span class="pz-chip">Teman</span><span class="pz-chip pz-chip-ai">✦ Untukmu</span></div></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><span class="pz-lbl">Pose</span><div class="pz-marq" role="img" aria-label="Gaya pose bergulir: peace sign, bersandar, berjalan, menoleh ke belakang, jongkok, tangan di pinggang, tangan bersilang, melambai, tangan di rambut, duduk, melompat, tangan di saku, selfie"><div class="pz-track"><img class="pz-th pz-on" src="assets/img/poses/peace-sign.jpg" alt="" title="Peace sign"><img class="pz-th" src="assets/img/poses/leaning.jpg" alt="" title="Bersandar"><img class="pz-th" src="assets/img/poses/walking.jpg" alt="" title="Berjalan"><img class="pz-th" src="assets/img/poses/look-back.jpg" alt="" title="Menoleh ke belakang"><img class="pz-th" src="assets/img/poses/crouch.jpg" alt="" title="Jongkok"><img class="pz-th" src="assets/img/poses/hands-on-hips.jpg" alt="" title="Tangan di pinggang"><img class="pz-th" src="assets/img/poses/arms-crossed.jpg" alt="" title="Tangan bersilang"><img class="pz-th" src="assets/img/poses/wave.jpg" alt="" title="Melambai"><img class="pz-th" src="assets/img/poses/hand-in-hair.jpg" alt="" title="Tangan di rambut"><img class="pz-th" src="assets/img/poses/sitting.jpg" alt="" title="Duduk"><img class="pz-th" src="assets/img/poses/jump.jpg" alt="" title="Melompat"><img class="pz-th" src="assets/img/poses/hands-in-pockets.jpg" alt="" title="Tangan di saku"><img class="pz-th" src="assets/img/poses/selfie-arm.jpg" alt="" title="Selfie"><img class="pz-th pz-on" src="assets/img/poses/peace-sign.jpg" alt="" title="Peace sign"><img class="pz-th" src="assets/img/poses/leaning.jpg" alt="" title="Bersandar"><img class="pz-th" src="assets/img/poses/walking.jpg" alt="" title="Berjalan"><img class="pz-th" src="assets/img/poses/look-back.jpg" alt="" title="Menoleh ke belakang"><img class="pz-th" src="assets/img/poses/crouch.jpg" alt="" title="Jongkok"><img class="pz-th" src="assets/img/poses/hands-on-hips.jpg" alt="" title="Tangan di pinggang"><img class="pz-th" src="assets/img/poses/arms-crossed.jpg" alt="" title="Tangan bersilang"><img class="pz-th" src="assets/img/poses/wave.jpg" alt="" title="Melambai"><img class="pz-th" src="assets/img/poses/hand-in-hair.jpg" alt="" title="Tangan di rambut"><img class="pz-th" src="assets/img/poses/sitting.jpg" alt="" title="Duduk"><img class="pz-th" src="assets/img/poses/jump.jpg" alt="" title="Melompat"><img class="pz-th" src="assets/img/poses/hands-in-pockets.jpg" alt="" title="Tangan di saku"><img class="pz-th" src="assets/img/poses/selfie-arm.jpg" alt="" title="Selfie"></div></div></div>
+<div style="display: flex; flex-direction: column; gap: 8px"><span class="pz-lbl">Ukuran foto</span><div class="pz-row" style="display: flex; flex-wrap: nowrap; gap: 6px"><span class="pz-size"><i style="width:16px;height:16px"></i>1:1</span><span class="pz-size pz-size-on"><i style="width:14px;height:17px"></i>4:5</span><span class="pz-size"><i style="width:13px;height:17px"></i>3:4</span><span class="pz-size"><i style="width:10px;height:18px"></i>9:16</span><span class="pz-size"><i style="width:18px;height:10px"></i>16:9</span></div></div>
+</div>
+<div style="display: flex; gap: 14px; align-items: flex-start"><span style="flex-shrink: 0; width: 40px; height: 40px; border-radius: 40px; background: #2B59FF; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-family: 'Sora', sans-serif; font-weight: 700; font-size: 18px">1</span><div><h3 style="margin: 0; font-size: 21px; font-weight: 700">Pilih fotomu</h3><p style="margin: 6px 0 0; font-size: 16px; line-height: 1.55; color: #3B4A6B">Pilih jenis foto, pose, dan ukuran fotonya, atau biarkan AI menyarankan foto yang cocok dengan lokasimu.</p></div></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 16px">
+<div style="width: 100%; aspect-ratio: 1 / 1; border-radius: 24px; overflow: hidden; background: #0B1530"><video src="assets/video/step2-follow.mp4" poster="assets/img/step2-follow-poster.jpg" autoplay muted loop playsinline preload="auto" aria-label="Outline pose menyala merah saat pose belum pas, wanita itu mengangkat tangan membentuk peace sign, dan outline berubah biru saat cocok" style="width: 100%; height: 100%; object-fit: contain; display: block"></video></div>
+<div style="display: flex; gap: 14px; align-items: flex-start"><span style="flex-shrink: 0; width: 40px; height: 40px; border-radius: 40px; background: #2B59FF; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-family: 'Sora', sans-serif; font-weight: 700; font-size: 18px">2</span><div><h3 style="margin: 0; font-size: 21px; font-weight: 700">Ikuti outline-nya</h3><p style="margin: 6px 0 0; font-size: 16px; line-height: 1.55; color: #3B4A6B">Merah berarti belum pas. Pozea memberi tahu apa yang perlu diubah sampai outline-nya menyala biru.</p></div></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 16px">
+<div style="width: 100%; aspect-ratio: 1 / 1; border-radius: 24px; overflow: hidden; background: #0B1530"><video src="assets/video/step3-shot.mp4" poster="assets/img/step3-shot-poster.jpg" autoplay muted loop playsinline preload="auto" aria-label="Tombol jepret ditekan dengan kilatan flash, foto tersimpan seperti cetakan dan mendapat nilai sebagai foto yang bagus" style="width: 100%; height: 100%; object-fit: contain; display: block"></video></div>
+<div style="display: flex; gap: 14px; align-items: flex-start"><span style="flex-shrink: 0; width: 40px; height: 40px; border-radius: 40px; background: #2B59FF; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-family: 'Sora', sans-serif; font-weight: 700; font-size: 18px">3</span><div><h3 style="margin: 0; font-size: 21px; font-weight: 700">Dapatkan fotonya</h3><p style="margin: 6px 0 0; font-size: 16px; line-height: 1.55; color: #3B4A6B">Pozea memotret otomatis saat posemu pas, lalu memberi nilai pada foto dan tips untuk foto berikutnya.</p></div></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- FEATURES -->
+<section id="features" style="background: #FFFFFF; padding: 96px 24px">
+<div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px">
+<div style="max-width: 760px; display: flex; flex-direction: column; gap: 16px">
+<span style="font-size: 14px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #1A3FD1">Fitur</span>
+<h2 style="margin: 0; font-family: 'Sora', sans-serif; font-weight: 700; font-size: clamp(32px, 4vw, 52px); line-height: 1.1; letter-spacing: -0.035em">Semua yang akan dikatakan seorang fotografer.</h2>
+</div>
+<div class="pz-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 16px">
+<div style="padding: 26px; border-radius: 22px; border: 1.5px solid #E3EAFF; display: flex; flex-direction: column; gap: 10px"><span style="width: 48px; height: 48px; border-radius: 14px; background: #E3EAFF; display: flex; align-items: center; justify-content: center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2B59FF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="5" r="2.5"></circle><path d="M12 8v6M8 22l4-8 4 8M6 9l6 2 6-4"></path></svg></span><h3 style="margin: 0; font-size: 19px; font-weight: 700">Panduan pose AI</h3><p style="margin: 0; font-size: 16px; line-height: 1.55; color: #3B4A6B">Outline langsung dan tips yang mudah dipahami membantumu menemukan pose yang natural.</p></div>
+<div style="padding: 26px; border-radius: 22px; border: 1.5px solid #E3EAFF; display: flex; flex-direction: column; gap: 10px"><span style="width: 48px; height: 48px; border-radius: 14px; background: #E3EAFF; display: flex; align-items: center; justify-content: center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2B59FF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V5a1 1 0 0 1 1-1h4M15 4h4a1 1 0 0 1 1 1v4M20 15v4a1 1 0 0 1-1 1h-4M9 20H5a1 1 0 0 1-1-1v-4"></path></svg></span><h3 style="margin: 0; font-size: 19px; font-weight: 700">Bingkai pintar</h3><p style="margin: 0; font-size: 16px; line-height: 1.55; color: #3B4A6B">Pilih seluruh badan, setengah badan, atau close-up, dan Pozea menjaga posisimu tetap pas di bingkai.</p></div>
+<div style="padding: 26px; border-radius: 22px; border: 1.5px solid #E3EAFF; display: flex; flex-direction: column; gap: 10px"><span style="width: 48px; height: 48px; border-radius: 14px; background: #E3EAFF; display: flex; align-items: center; justify-content: center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2B59FF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"></path><circle cx="12" cy="9.5" r="2.5"></circle></svg></span><h3 style="margin: 0; font-size: 19px; font-weight: 700; display: flex; flex-wrap: wrap; align-items: center; gap: 8px">Spot foto terdekat<span class="pz-soon">Segera hadir</span></h3><p style="margin: 0; font-size: 16px; line-height: 1.55; color: #3B4A6B">Peta spot foto keren di sekitarmu, lengkap dengan contoh foto dari setiap tempat.</p></div>
+<div style="padding: 26px; border-radius: 22px; border: 1.5px solid #E3EAFF; display: flex; flex-direction: column; gap: 10px"><span style="width: 48px; height: 48px; border-radius: 14px; background: #E3EAFF; display: flex; align-items: center; justify-content: center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2B59FF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3l3 2 3-2 5 3-2 4-2-1v12H8V9L6 10 4 6z"></path></svg></span><h3 style="margin: 0; font-size: 19px; font-weight: 700; display: flex; flex-wrap: wrap; align-items: center; gap: 8px">Outfit sesuai musim<span class="pz-soon">Segera hadir</span></h3><p style="margin: 0; font-size: 16px; line-height: 1.55; color: #3B4A6B">Tahu harus pakai apa sesuai cuaca dan suasana setiap spot.</p></div>
+<div style="padding: 26px; border-radius: 22px; border: 1.5px solid #E3EAFF; display: flex; flex-direction: column; gap: 10px"><span style="width: 48px; height: 48px; border-radius: 14px; background: #E3EAFF; display: flex; align-items: center; justify-content: center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2B59FF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></span><h3 style="margin: 0; font-size: 19px; font-weight: 700; display: flex; flex-wrap: wrap; align-items: center; gap: 8px">Rencana perjalanan per jam<span class="pz-soon">Segera hadir</span></h3><p style="margin: 0; font-size: 16px; line-height: 1.55; color: #3B4A6B">Ke mana dan kapan harus datang, diatur untuk cahaya terbaik dan suasana yang tidak terlalu ramai.</p></div>
+<div style="padding: 26px; border-radius: 22px; border: 1.5px solid #E3EAFF; display: flex; flex-direction: column; gap: 10px"><span style="width: 48px; height: 48px; border-radius: 14px; background: #E3EAFF; display: flex; align-items: center; justify-content: center"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 Q13.2 10.8 22 12 Q13.2 13.2 12 22 Q10.8 13.2 2 12 Q10.8 10.8 12 2 Z" fill="#2B59FF"></path></svg></span><h3 style="margin: 0; font-size: 19px; font-weight: 700; display: flex; flex-wrap: wrap; align-items: center; gap: 8px">Penilaian foto<span class="pz-soon">Segera hadir</span></h3><p style="margin: 0; font-size: 16px; line-height: 1.55; color: #3B4A6B">Setiap foto mendapat nilai untuk pose, komposisi, dan cahaya, plus satu tips agar lebih baik.</p></div>
+</div>
+</div>
+</section>
+
+<!-- USE CASES -->
+<section id="use-cases" style="background: #F4F7FF; padding: 96px 24px">
+<div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px">
+<div style="max-width: 760px; display: flex; flex-direction: column; gap: 16px">
+<span style="font-size: 14px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #1A3FD1">Untuk siapa</span>
+<h2 style="margin: 0; font-family: 'Sora', sans-serif; font-weight: 700; font-size: clamp(32px, 4vw, 52px); line-height: 1.1; letter-spacing: -0.035em">Untuk siapa saja yang pernah bertanya, "Bisa tolong fotoin aku?"</h2>
+</div>
+<div class="pz-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr)); gap: 16px">
+<div style="border-radius: 22px; overflow: hidden; background: #FFFFFF"><img src="assets/img/usecase-traveler.jpg" alt="Traveler solo berdiri di atas batu karang menghadap laut biru" style="width: 100%; height: 260px; object-fit: cover; object-position: 50% 50%; display: block"><div style="padding: 18px 20px 22px"><h3 style="margin: 0; font-size: 19px; font-weight: 700">Traveler solo</h3><p style="margin: 6px 0 0; font-size: 15px; line-height: 1.5; color: #3B4A6B">Kenangan dari setiap perjalanan, tanpa perlu minta tolong orang asing.</p></div></div>
+<div style="border-radius: 22px; overflow: hidden; background: #FFFFFF"><img src="assets/img/usecase-creator.jpg" alt="Kreator konten berbicara ke kamera di meja kerjanya" style="width: 100%; height: 260px; object-fit: cover; object-position: 52% 40%; display: block"><div style="padding: 18px 20px 22px"><h3 style="margin: 0; font-size: 19px; font-weight: 700">Kreator konten</h3><p style="margin: 6px 0 0; font-size: 15px; line-height: 1.5; color: #3B4A6B">Feed yang konsisten, dengan ide pose baru untuk setiap unggahan.</p></div></div>
+<div style="border-radius: 22px; overflow: hidden; background: #FFFFFF"><img src="assets/img/usecase-student.jpg" alt="Wisudawati merentangkan tangan sambil memegang ijazah di bawah langit biru" style="width: 100%; height: 260px; object-fit: cover; object-position: 50% 72%; display: block"><div style="padding: 18px 20px 22px"><h3 style="margin: 0; font-size: 19px; font-weight: 700">Pelajar & mahasiswa</h3><p style="margin: 6px 0 0; font-size: 15px; line-height: 1.5; color: #3B4A6B">Foto kehidupan kampus dan wisuda yang tampil maksimal.</p></div></div>
+<div style="border-radius: 22px; overflow: hidden; background: #FFFFFF"><img src="assets/img/usecase-branding.jpg" alt="Wanita tersenyum bekerja di meja dengan laptop, ring light dan papan ide personal branding" style="width: 100%; height: 260px; object-fit: cover; object-position: 50% 35%; display: block"><div style="padding: 18px 20px 22px"><h3 style="margin: 0; font-size: 19px; font-weight: 700">Personal branding</h3><p style="margin: 6px 0 0; font-size: 15px; line-height: 1.5; color: #3B4A6B">Foto profil yang bikin bangga, tanpa perlu sewa studio.</p></div></div>
+</div>
+</div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" style="background: #FFFFFF; padding: 96px 24px">
+<div style="max-width: 1100px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 32px 64px; align-items: flex-start">
+<h2 style="margin: 0; flex: 1 1 260px; font-family: 'Sora', sans-serif; font-weight: 700; font-size: clamp(32px, 4vw, 52px); line-height: 1.1; letter-spacing: -0.035em">Pertanyaan,<br>terjawab.</h2>
+<div class="pz-faq" style="flex: 2 1 min(480px, 100%); min-width: 0; display: flex; flex-direction: column; gap: 0">
+<details style="padding: 20px 24px; border-radius: 18px; background: #F4F7FF"><summary style="font-size: 18px; font-weight: 700">Apa itu Pozea?</summary><p style="margin: 12px 0 0; font-size: 16px; line-height: 1.6; color: #3B4A6B">Aplikasi fotografer pribadi berbasis AI. Pozea memandu pose, bingkai, dan waktu memotret langsung di kameramu, serta menyarankan spot foto, outfit, dan rencana di mana pun kamu berada.</p></details>
+<details style="padding: 20px 24px; border-radius: 18px; background: #F4F7FF"><summary style="font-size: 18px; font-weight: 700">Bagaimana cara kerjanya?</summary><p style="margin: 12px 0 0; font-size: 16px; line-height: 1.6; color: #3B4A6B">Pilih pose referensi lalu ikuti outline di layar. Outline berwarna merah saat masih ada yang belum pas dan menyala saat posemu cocok, lalu Pozea mengambil fotonya.</p></details>
+<details style="padding: 20px 24px; border-radius: 18px; background: #F4F7FF"><summary style="font-size: 18px; font-weight: 700">Apakah ada pose untuk pasangan dan teman?</summary><p style="margin: 12px 0 0; font-size: 16px; line-height: 1.6; color: #3B4A6B">Ada. Selain pose sendiri, koleksi pose juga punya outline untuk dua orang atau lebih, jadi pasangan atau rombongan bisa berpose bersama dalam satu bingkai.</p></details>
+<details style="padding: 20px 24px; border-radius: 18px; background: #F4F7FF"><summary style="font-size: 18px; font-weight: 700">Bisakah aku pakai Pozea sendirian?</summary><p style="margin: 12px 0 0; font-size: 16px; line-height: 1.6; color: #3B4A6B">Bisa, justru itu tujuannya. Sandarkan ponselmu, lalu outline dan pemotretan otomatis akan mengurus sisanya. Tetap bisa dipakai juga saat ponsel dipegang teman.</p></details>
+<details style="padding: 20px 24px; border-radius: 18px; background: #F4F7FF"><summary style="font-size: 18px; font-weight: 700">Bagaimana Pozea tahu posaku sudah pas?</summary><p style="margin: 12px 0 0; font-size: 16px; line-height: 1.6; color: #3B4A6B">Kamera membandingkan posisi badanmu dengan outline secara langsung. Selama masih ada yang belum pas, outline tetap merah dan tips singkat memberi tahu apa yang perlu diubah. Saat sudah pas, outline menyala dan Pozea mengambil fotonya.</p></details>
+<details style="padding: 20px 24px; border-radius: 18px; background: #F4F7FF"><summary style="font-size: 18px; font-weight: 700">Apakah Pozea mengedit wajahku?</summary><p style="margin: 12px 0 0; font-size: 16px; line-height: 1.6; color: #3B4A6B">Tidak. Pozea hanya memandu cara berpose dan membingkai foto. Pozea tidak mengubah bentuk wajah atau badanmu.</p></details>
+<details style="padding: 20px 24px; border-radius: 18px; background: #F4F7FF"><summary style="font-size: 18px; font-weight: 700">Apakah fotoku aman dan privat?</summary><p style="margin: 12px 0 0; font-size: 16px; line-height: 1.6; color: #3B4A6B">[Jelaskan di mana foto disimpan, apakah dipakai untuk melatih AI, siapa yang bisa mengaksesnya, dan cara menghapusnya. Terbitkan sebelum rilis.]</p></details>
+<details style="padding: 20px 24px; border-radius: 18px; background: #F4F7FF"><summary style="font-size: 18px; font-weight: 700">Apakah ada paket gratis?</summary><p style="margin: 12px 0 0; font-size: 16px; line-height: 1.6; color: #3B4A6B">Semua yang ada di waitlist mendapat akses awal. [Detail paket Gratis dan Pro menyusul sebelum rilis.]</p></details>
+<details class="pz-more"><summary><span class="pz-lm">Lihat pertanyaan lainnya</span><span class="pz-ll">Tampilkan lebih sedikit</span></summary><div>
+<details style="padding: 20px 24px; border-radius: 18px; background: #F4F7FF"><summary style="font-size: 18px; font-weight: 700">Apakah aku butuh kamera profesional?</summary><p style="margin: 12px 0 0; font-size: 16px; line-height: 1.6; color: #3B4A6B">Tidak. Pozea dibuat untuk kamera di ponselmu.</p></details>
+<details style="padding: 20px 24px; border-radius: 18px; background: #F4F7FF"><summary style="font-size: 18px; font-weight: 700">Ponsel apa saja yang didukung?</summary><p style="margin: 12px 0 0; font-size: 16px; line-height: 1.6; color: #3B4A6B">[Perangkat yang didukung: cantumkan versi iOS dan Android sebelum rilis.]</p></details>
+<details style="padding: 20px 24px; border-radius: 18px; background: #F4F7FF"><summary style="font-size: 18px; font-weight: 700">Bisakah aku pakai foto sendiri atau pose dari Pinterest?</summary><p style="margin: 12px 0 0; font-size: 16px; line-height: 1.6; color: #3B4A6B">Pozea dibangun dengan koleksi pose sendiri, dan kami sedang mengembangkan fitur untuk mengubah foto referensimu menjadi outline. [Konfirmasi ketersediaan sebelum rilis.]</p></details>
+<details style="padding: 20px 24px; border-radius: 18px; background: #F4F7FF"><summary style="font-size: 18px; font-weight: 700">Bisakah Pozea menyarankan pose dan spot sesuai lokasiku?</summary><p style="margin: 12px 0 0; font-size: 16px; line-height: 1.6; color: #3B4A6B">Bisa. Pozea menyarankan spot foto di dekatmu, waktu terbaik untuk memotret di sana, dan pose yang cocok dengan tempatnya, lalu menyusunnya menjadi rencana per jam.</p></details>
+<details style="padding: 20px 24px; border-radius: 18px; background: #F4F7FF"><summary style="font-size: 18px; font-weight: 700">Apa itu saran outfit?</summary><p style="margin: 12px 0 0; font-size: 16px; line-height: 1.6; color: #3B4A6B">Pozea merekomendasikan ide outfit yang sesuai dengan musim, cuaca, dan spotnya, jadi pakaianmu terlihat pas di foto.</p></details>
+<details style="padding: 20px 24px; border-radius: 18px; background: #F4F7FF"><summary style="font-size: 18px; font-weight: 700">Apakah fotoku dikirim keluar dari ponsel?</summary><p style="margin: 12px 0 0; font-size: 16px; line-height: 1.6; color: #3B4A6B">[Jelaskan apa yang tetap tersimpan di perangkat dan apa saja yang diunggah, jika ada. Terbitkan sebelum rilis.]</p></details>
+<details style="padding: 20px 24px; border-radius: 18px; background: #F4F7FF"><summary style="font-size: 18px; font-weight: 700">Apakah Pozea tersedia di Android?</summary><p style="margin: 12px 0 0; font-size: 16px; line-height: 1.6; color: #3B4A6B">[Ketersediaan platform: konfirmasi rencana rilis iOS dan Android sebelum rilis.]</p></details>
+<details style="padding: 20px 24px; border-radius: 18px; background: #F4F7FF"><summary style="font-size: 18px; font-weight: 700">Pozea tersedia dalam bahasa apa saja?</summary><p style="margin: 12px 0 0; font-size: 16px; line-height: 1.6; color: #3B4A6B">[Cantumkan bahasa yang didukung sebelum rilis.]</p></details>
+<details style="padding: 20px 24px; border-radius: 18px; background: #F4F7FF"><summary style="font-size: 18px; font-weight: 700">Bagaimana cara berhenti berlangganan?</summary><p style="margin: 12px 0 0; font-size: 16px; line-height: 1.6; color: #3B4A6B">[Jelaskan cara membatalkan setelah paket berbayar tersedia. Pembatalan bisa dilakukan kapan saja dari pengaturan akun.]</p></details>
+</div></details>
+</div>
+</div>
+</section>
+
+<!-- GET THE APP -->
+<section id="download" style="background: #F4F7FF; padding: 112px 24px">
+<div style="max-width: 960px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 32px">
+<h2 style="margin: 0; font-family: 'Sora', sans-serif; font-weight: 800; font-size: clamp(34px, 5.4vw, 72px); line-height: 1.05; letter-spacing: -0.04em; color: #0B1530">Foto bagus bukan soal keberuntungan.</h2>
+<div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: 20px 24px">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 10px">
+<a href="#" aria-label="Dapatkan Pozea di Google Play" style="display: flex; align-items: center; gap: 12px; height: 64px; box-sizing: border-box; padding: 0 22px 0 18px; border-radius: 14px; background: #000000; border: 1px solid #A6A6A6; color: #FFFFFF; text-decoration: none; text-align: left">
+<svg width="30" height="32" viewBox="0 0 30 32" aria-hidden="true"><path d="M2 1.5 L18 16 L2 30.5 Q0.5 29.6 0.5 28 V4 Q0.5 2.4 2 1.5 Z" fill="#2BC4F2"></path><path d="M18 16 L23.5 10.9 L5 0.8 Q3.2 0 2 1.5 Z" fill="#19D38A"></path><path d="M18 16 L23.5 21.1 L5 31.2 Q3.2 32 2 30.5 Z" fill="#FF5C5C"></path><path d="M23.5 10.9 L28 13.4 Q29.8 14.7 28 18.6 L23.5 21.1 L18 16 Z" fill="#FFC93C"></path></svg>
+<span style="display: flex; flex-direction: column; line-height: 1.1"><span style="font-size: 12px; letter-spacing: 0.02em">TERSEDIA DI</span><span style="font-size: 24px; font-weight: 600">Google Play</span></span>
+</a>
+</div>
+<div style="display: flex; flex-direction: column; align-items: center; gap: 10px">
+<div role="img" aria-label="App Store, segera hadir" style="display: flex; align-items: center; gap: 12px; height: 64px; box-sizing: border-box; padding: 0 22px 0 18px; border-radius: 14px; background: #000000; border: 1px solid #A6A6A6; color: #FFFFFF; text-align: left; opacity: 0.45">
+<svg width="28" height="32" viewBox="0 0 28 32" aria-hidden="true"><path d="M14 8 C9 8 4 11.5 4 18.5 C4 25 8.5 31 11.5 31 C13 31 13.5 30 15.5 30 C17.5 30 17.8 31 19.5 31 C22.5 31 25 26.5 26 23.5 C22.5 22 21 18 22.8 14.8 C23.5 13.6 24.6 12.5 26 12 C24.5 9.8 22 8.6 19.5 8.6 C17.5 8.6 15.8 9.6 14.8 9.6 C14 9.6 14 8 14 8 Z" fill="#FFFFFF"></path><path d="M18 1 C18 3.2 16.4 5.8 14 6.6 C13.8 4.4 15.6 1.4 18 1 Z" fill="#FFFFFF"></path></svg>
+<span style="display: flex; flex-direction: column; line-height: 1.1"><span style="font-size: 12px; letter-spacing: 0.02em">Download di</span><span style="font-size: 24px; font-weight: 600">App Store</span></span>
+</div>
+<span style="display: inline-block; padding: 4px 12px; border-radius: 999px; background: #E3EAFF; color: #2B59FF; font-size: 13px; font-weight: 700">Segera hadir</span>
+</div>
+</div>
+<p style="margin: 0; font-size: 15px; font-weight: 500; color: #6B7894">Hadir lebih dulu di Android. Versi iPhone segera menyusul. [Ganti dengan badge dan link resmi toko aplikasi sebelum rilis.]</p>
+</div>
+</section>
+
+<!-- FINAL CTA / WAITLIST -->
+<section id="waitlist" style="background: #0B1530; color: #FFFFFF; padding: 104px 24px">
+<div style="position: relative; max-width: 960px; margin: 0 auto; box-sizing: border-box; padding: clamp(32px, 5vw, 64px); border-radius: 36px; background: #121D3D; overflow: hidden; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 20px">
+<div class="pz-ring" aria-hidden="true" style="padding: 3px; border-radius: 36px"><div class="pz-spin"></div></div>
+<svg width="64" height="64" viewBox="0 0 120 120" aria-hidden="true"><g fill="none" stroke="#4D78FF" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"><path d="M12 40 V26 Q12 12 26 12 H40"></path><path d="M12 80 V94 Q12 108 26 108 H40"></path><path d="M80 108 H94 Q108 108 108 94 V80"></path></g><path d="M95 8 Q97.5 22.5 112 25 Q97.5 27.5 95 42 Q92.5 27.5 78 25 Q92.5 22.5 95 8 Z" fill="#19D38A"></path><circle cx="60" cy="50" r="14" fill="#19D38A"></circle><path d="M33 94 C33 77 45 70 60 70 C75 70 87 77 87 94 Z" fill="#19D38A"></path></svg>
+<h2 style="margin: 0; font-family: 'Sora', sans-serif; font-weight: 800; font-size: clamp(34px, 4.6vw, 60px); line-height: 1.05; letter-spacing: -0.04em">Foto terbaikmu<br><span class="pz-gtext">masih menantimu.</span></h2>
+<p style="margin: 0; max-width: 560px; font-size: 18px; line-height: 1.6; color: #C9D2EA">Gabung waitlist dan kami akan mengirim email di hari Pozea rilis, dengan akses awal sebelum yang lain.</p>
+<div class="js-wl-form" style="display: contents">
+<form class="js-waitlist" novalidate style="width: 100%; max-width: 560px; display: flex; flex-wrap: wrap; gap: 10px">
+<label for="email-final" class="sr-only">Alamat email</label>
+<input id="email-final" type="email" autocomplete="email" placeholder="kamu@email.com" name="email" required style="flex: 1 1 260px; min-width: 0; height: 56px; box-sizing: border-box; padding: 0 20px; border-radius: 16px; border: 1.5px solid #2E3B66; background: #0B1530; color: #FFFFFF; font-size: 16px">
+<button type="submit" style="flex: 1 0 auto; height: 56px; padding: 0 26px; border: 0; border-radius: 16px; background: #2B59FF; color: #FFFFFF; font-size: 16px; font-weight: 700">Kabari aku saat rilis</button>
+</form>
+<p role="alert" class="js-wl-error" style="margin: 0; font-size: 14px; font-weight: 600; color: #FF8080" hidden></p>
+<p style="margin: 0; font-size: 14px; color: #9AA6C2">Satu email saat rilis. Bisa berhenti berlangganan kapan saja.</p>
+</div>
+<div class="js-wl-done" style="display: contents" hidden>
+<div role="status" style="display: flex; align-items: center; gap: 12px; padding: 16px 20px; border-radius: 16px; background: #12324A; border: 1.5px solid #19D38A">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#19D38A" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>
+<span style="font-size: 16px; font-weight: 600">Kamu sudah terdaftar! Pantau kotak masukmu di hari rilis.</span>
+</div>
+</div>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact" style="background: #0B1530; color: #9AA6C2; border-top: 1px solid #1E2A52; padding: 72px 24px 32px">
+<div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 56px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 48px">
+<div style="flex: 1 1 320px; max-width: 460px; display: flex; flex-direction: column; gap: 22px">
+<span style="font-family: 'Sora', sans-serif; font-weight: 700; font-size: 30px; letter-spacing: -0.05em; color: #FFFFFF">pozea</span>
+<p style="margin: 0; font-size: 17px; line-height: 1.7; color: #C9D2EA">Kami senang mendengar kabar dari pecinta foto, kreator, mitra, dan pengguna awal.</p>
+<p style="margin: 0; font-size: 17px; line-height: 1.7; color: #C9D2EA">Hubungi kami di <a href="mailto:pozeaapp@gmail.com" style="color: #FFFFFF; text-decoration: underline">pozeaapp@gmail.com</a></p>
+<div style="display: flex; gap: 14px; margin-top: 6px">
+<a href="#" aria-label="Pozea di TikTok" style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; border-radius: 14px; background: #1A2750; border: 1px solid #2E3B66"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8FAEFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3 V15.5 A3.5 3.5 0 1 1 10.5 12"></path><path d="M14 3 C14.3 5.8 16.2 7.6 19 7.8"></path></svg></a>
+<a href="#" aria-label="Pozea di Instagram" style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; border-radius: 14px; background: #1A2750; border: 1px solid #2E3B66"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8FAEFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.2" cy="6.8" r="0.8" fill="#8FAEFF"></circle></svg></a>
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 40px 72px">
+<div style="display: flex; flex-direction: column; gap: 18px; min-width: 140px">
+<span style="font-family: 'Sora', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; color: #FFFFFF">Produk</span>
+<a href="#download" style="font-size: 16px; color: #C9D2EA; text-decoration: none">Unduh aplikasi</a>
+<a href="#faq" style="font-size: 16px; color: #C9D2EA; text-decoration: none">FAQ</a>
+<a href="#waitlist" style="font-size: 16px; color: #C9D2EA; text-decoration: none">Gabung waitlist</a>
+</div>
+<div style="display: flex; flex-direction: column; gap: 18px; min-width: 140px">
+<span style="font-family: 'Sora', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; color: #FFFFFF">Legal</span>
+<a href="#privacy" style="font-size: 16px; color: #C9D2EA; text-decoration: none">Kebijakan Privasi</a>
+<a href="#terms" style="font-size: 16px; color: #C9D2EA; text-decoration: none">Syarat dan Ketentuan</a>
+<a href="#cookies" style="font-size: 16px; color: #C9D2EA; text-decoration: none">Kebijakan Cookie</a>
+</div>
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding-top: 28px; border-top: 1px solid #1E2A52; font-size: 15px">
+<span>© 2026 Pozea. Hak cipta dilindungi.</span>
+<span>Dibuat dengan ♥ untuk semua yang suka foto bagus.</span>
+</div>
+</div>
+</footer>
+
+</div>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>
