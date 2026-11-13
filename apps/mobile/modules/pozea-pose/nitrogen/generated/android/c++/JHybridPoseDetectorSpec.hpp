@@ -54,7 +54,7 @@ namespace margelo::nitro::pozea::pose {
 
   public:
     // Methods
-    PoseResult detect(const std::shared_ptr<margelo::nitro::camera::HybridFrameSpec>& frame, PoseEngine engine) override;
+    PoseResult detect(const std::shared_ptr<margelo::nitro::camera::HybridFrameSpec>& frame, const PoseOptions& options) override;
 
   private:
     jni::global_ref<JHybridPoseDetectorSpec::JavaPart> _javaPart;

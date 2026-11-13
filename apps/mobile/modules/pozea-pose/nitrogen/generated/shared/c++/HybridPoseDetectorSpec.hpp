@@ -17,13 +17,13 @@
 namespace margelo::nitro::pozea::pose { struct PoseResult; }
 // Forward declaration of `HybridFrameSpec` to properly resolve imports.
 namespace margelo::nitro::camera { class HybridFrameSpec; }
-// Forward declaration of `PoseEngine` to properly resolve imports.
-namespace margelo::nitro::pozea::pose { enum class PoseEngine; }
+// Forward declaration of `PoseOptions` to properly resolve imports.
+namespace margelo::nitro::pozea::pose { struct PoseOptions; }
 
 #include "PoseResult.hpp"
 #include <memory>
 #include <VisionCamera/HybridFrameSpec.hpp>
-#include "PoseEngine.hpp"
+#include "PoseOptions.hpp"
 
 namespace margelo::nitro::pozea::pose {
 
@@ -56,7 +56,7 @@ namespace margelo::nitro::pozea::pose {
 
     public:
       // Methods
-      virtual PoseResult detect(const std::shared_ptr<margelo::nitro::camera::HybridFrameSpec>& frame, PoseEngine engine) = 0;
+      virtual PoseResult detect(const std::shared_ptr<margelo::nitro::camera::HybridFrameSpec>& frame, const PoseOptions& options) = 0;
 
     protected:
       // Hybrid Setup

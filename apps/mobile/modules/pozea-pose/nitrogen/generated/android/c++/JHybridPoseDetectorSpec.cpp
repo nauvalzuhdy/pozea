@@ -11,6 +11,8 @@
 namespace margelo::nitro::pozea::pose { struct PoseResult; }
 // Forward declaration of `HybridFrameSpec` to properly resolve imports.
 namespace margelo::nitro::camera { class HybridFrameSpec; }
+// Forward declaration of `PoseOptions` to properly resolve imports.
+namespace margelo::nitro::pozea::pose { struct PoseOptions; }
 // Forward declaration of `PoseEngine` to properly resolve imports.
 namespace margelo::nitro::pozea::pose { enum class PoseEngine; }
 
@@ -20,6 +22,8 @@ namespace margelo::nitro::pozea::pose { enum class PoseEngine; }
 #include <memory>
 #include <VisionCamera/HybridFrameSpec.hpp>
 #include <VisionCamera/JHybridFrameSpec.hpp>
+#include "PoseOptions.hpp"
+#include "JPoseOptions.hpp"
 #include "PoseEngine.hpp"
 #include "JPoseEngine.hpp"
 
@@ -56,9 +60,9 @@ namespace margelo::nitro::pozea::pose {
   
 
   // Methods
-  PoseResult JHybridPoseDetectorSpec::detect(const std::shared_ptr<margelo::nitro::camera::HybridFrameSpec>& frame, PoseEngine engine) {
-    static const auto method = _javaPart->javaClassStatic()->getMethod<jni::local_ref<JPoseResult>(jni::alias_ref<margelo::nitro::camera::JHybridFrameSpec::JavaPart> /* frame */, jni::alias_ref<JPoseEngine> /* engine */)>("detect");
-    auto __result = method(_javaPart, std::dynamic_pointer_cast<margelo::nitro::camera::JHybridFrameSpec>(frame)->getJavaPart(), JPoseEngine::fromCpp(engine));
+  PoseResult JHybridPoseDetectorSpec::detect(const std::shared_ptr<margelo::nitro::camera::HybridFrameSpec>& frame, const PoseOptions& options) {
+    static const auto method = _javaPart->javaClassStatic()->getMethod<jni::local_ref<JPoseResult>(jni::alias_ref<margelo::nitro::camera::JHybridFrameSpec::JavaPart> /* frame */, jni::alias_ref<JPoseOptions> /* options */)>("detect");
+    auto __result = method(_javaPart, std::dynamic_pointer_cast<margelo::nitro::camera::JHybridFrameSpec>(frame)->getJavaPart(), JPoseOptions::fromCpp(options));
     return __result->toCpp();
   }
 

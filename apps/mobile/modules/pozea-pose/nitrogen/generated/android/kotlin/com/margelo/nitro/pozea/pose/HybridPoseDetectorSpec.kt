@@ -32,7 +32,7 @@ abstract class HybridPoseDetectorSpec: HybridObject() {
   // Methods
   @DoNotStrip
   @Keep
-  abstract fun detect(frame: com.margelo.nitro.camera.HybridFrameSpec, engine: PoseEngine): PoseResult
+  abstract fun detect(frame: com.margelo.nitro.camera.HybridFrameSpec, options: PoseOptions): PoseResult
 
   // Default implementation of `HybridObject.toString()`
   override fun toString(): String {

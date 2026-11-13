@@ -144,6 +144,8 @@ dependencies {
   // Pose detection backends. Both run on-device and return the 33-point BlazePose topology.
   implementation 'com.google.mlkit:pose-detection:18.0.0-beta5'
   implementation 'com.google.mediapipe:tasks-vision:1.2.3'
+  // Smile probability and head angles for the live instructions.
+  implementation 'com.google.mlkit:face-detection:16.1.7'
 
   // ML Kit pulls WorkManager 2.7.0 and Room 2.2.5 through com.google.mlkit:acceleration. That old
   // Room loses WorkDatabase_Impl's constructor under R8 and crashes the app at startup, so pin

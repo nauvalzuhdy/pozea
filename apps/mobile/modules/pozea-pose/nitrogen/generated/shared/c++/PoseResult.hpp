@@ -42,10 +42,18 @@ namespace margelo::nitro::pozea::pose {
     std::vector<double> landmarks     SWIFT_PRIVATE;
     double rotationDegrees     SWIFT_PRIVATE;
     double inferenceMs     SWIFT_PRIVATE;
+    double uprightAspect     SWIFT_PRIVATE;
+    bool hasFace     SWIFT_PRIVATE;
+    double smile     SWIFT_PRIVATE;
+    double pitch     SWIFT_PRIVATE;
+    double yaw     SWIFT_PRIVATE;
+    std::vector<double> mask     SWIFT_PRIVATE;
+    double maskWidth     SWIFT_PRIVATE;
+    double maskHeight     SWIFT_PRIVATE;
 
   public:
     PoseResult() = default;
-    explicit PoseResult(std::vector<double> landmarks, double rotationDegrees, double inferenceMs): landmarks(landmarks), rotationDegrees(rotationDegrees), inferenceMs(inferenceMs) {}
+    explicit PoseResult(std::vector<double> landmarks, double rotationDegrees, double inferenceMs, double uprightAspect, bool hasFace, double smile, double pitch, double yaw, std::vector<double> mask, double maskWidth, double maskHeight): landmarks(landmarks), rotationDegrees(rotationDegrees), inferenceMs(inferenceMs), uprightAspect(uprightAspect), hasFace(hasFace), smile(smile), pitch(pitch), yaw(yaw), mask(mask), maskWidth(maskWidth), maskHeight(maskHeight) {}
 
   public:
     friend bool operator==(const PoseResult& lhs, const PoseResult& rhs) = default;
@@ -63,7 +71,15 @@ namespace margelo::nitro {
       return margelo::nitro::pozea::pose::PoseResult(
         JSIConverter<std::vector<double>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "landmarks"))),
         JSIConverter<double>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "rotationDegrees"))),
-        JSIConverter<double>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "inferenceMs")))
+        JSIConverter<double>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "inferenceMs"))),
+        JSIConverter<double>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "uprightAspect"))),
+        JSIConverter<bool>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "hasFace"))),
+        JSIConverter<double>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "smile"))),
+        JSIConverter<double>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "pitch"))),
+        JSIConverter<double>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "yaw"))),
+        JSIConverter<std::vector<double>>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "mask"))),
+        JSIConverter<double>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "maskWidth"))),
+        JSIConverter<double>::fromJSI(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "maskHeight")))
       );
     }
     static inline jsi::Value toJSI(jsi::Runtime& runtime, const margelo::nitro::pozea::pose::PoseResult& arg) {
@@ -71,6 +87,14 @@ namespace margelo::nitro {
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "landmarks"), JSIConverter<std::vector<double>>::toJSI(runtime, arg.landmarks));
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "rotationDegrees"), JSIConverter<double>::toJSI(runtime, arg.rotationDegrees));
       obj.setProperty(runtime, PropNameIDCache::get(runtime, "inferenceMs"), JSIConverter<double>::toJSI(runtime, arg.inferenceMs));
+      obj.setProperty(runtime, PropNameIDCache::get(runtime, "uprightAspect"), JSIConverter<double>::toJSI(runtime, arg.uprightAspect));
+      obj.setProperty(runtime, PropNameIDCache::get(runtime, "hasFace"), JSIConverter<bool>::toJSI(runtime, arg.hasFace));
+      obj.setProperty(runtime, PropNameIDCache::get(runtime, "smile"), JSIConverter<double>::toJSI(runtime, arg.smile));
+      obj.setProperty(runtime, PropNameIDCache::get(runtime, "pitch"), JSIConverter<double>::toJSI(runtime, arg.pitch));
+      obj.setProperty(runtime, PropNameIDCache::get(runtime, "yaw"), JSIConverter<double>::toJSI(runtime, arg.yaw));
+      obj.setProperty(runtime, PropNameIDCache::get(runtime, "mask"), JSIConverter<std::vector<double>>::toJSI(runtime, arg.mask));
+      obj.setProperty(runtime, PropNameIDCache::get(runtime, "maskWidth"), JSIConverter<double>::toJSI(runtime, arg.maskWidth));
+      obj.setProperty(runtime, PropNameIDCache::get(runtime, "maskHeight"), JSIConverter<double>::toJSI(runtime, arg.maskHeight));
       return obj;
     }
     static inline bool canConvert(jsi::Runtime& runtime, const jsi::Value& value) {
@@ -84,6 +108,14 @@ namespace margelo::nitro {
       if (!JSIConverter<std::vector<double>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "landmarks")))) return false;
       if (!JSIConverter<double>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "rotationDegrees")))) return false;
       if (!JSIConverter<double>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "inferenceMs")))) return false;
+      if (!JSIConverter<double>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "uprightAspect")))) return false;
+      if (!JSIConverter<bool>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "hasFace")))) return false;
+      if (!JSIConverter<double>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "smile")))) return false;
+      if (!JSIConverter<double>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "pitch")))) return false;
+      if (!JSIConverter<double>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "yaw")))) return false;
+      if (!JSIConverter<std::vector<double>>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "mask")))) return false;
+      if (!JSIConverter<double>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "maskWidth")))) return false;
+      if (!JSIConverter<double>::canConvert(runtime, obj.getProperty(runtime, PropNameIDCache::get(runtime, "maskHeight")))) return false;
       return true;
     }
   };

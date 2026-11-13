@@ -37,6 +37,22 @@ namespace margelo::nitro::pozea::pose {
       double rotationDegrees = this->getFieldValue(fieldRotationDegrees);
       static const auto fieldInferenceMs = clazz->getField<double>("inferenceMs");
       double inferenceMs = this->getFieldValue(fieldInferenceMs);
+      static const auto fieldUprightAspect = clazz->getField<double>("uprightAspect");
+      double uprightAspect = this->getFieldValue(fieldUprightAspect);
+      static const auto fieldHasFace = clazz->getField<jboolean>("hasFace");
+      jboolean hasFace = this->getFieldValue(fieldHasFace);
+      static const auto fieldSmile = clazz->getField<double>("smile");
+      double smile = this->getFieldValue(fieldSmile);
+      static const auto fieldPitch = clazz->getField<double>("pitch");
+      double pitch = this->getFieldValue(fieldPitch);
+      static const auto fieldYaw = clazz->getField<double>("yaw");
+      double yaw = this->getFieldValue(fieldYaw);
+      static const auto fieldMask = clazz->getField<jni::JArrayDouble>("mask");
+      jni::local_ref<jni::JArrayDouble> mask = this->getFieldValue(fieldMask);
+      static const auto fieldMaskWidth = clazz->getField<double>("maskWidth");
+      double maskWidth = this->getFieldValue(fieldMaskWidth);
+      static const auto fieldMaskHeight = clazz->getField<double>("maskHeight");
+      double maskHeight = this->getFieldValue(fieldMaskHeight);
       return PoseResult(
         [&]() {
           size_t __size = landmarks->size();
@@ -45,7 +61,20 @@ namespace margelo::nitro::pozea::pose {
           return __vector;
         }(),
         rotationDegrees,
-        inferenceMs
+        inferenceMs,
+        uprightAspect,
+        static_cast<bool>(hasFace),
+        smile,
+        pitch,
+        yaw,
+        [&]() {
+          size_t __size = mask->size();
+          std::vector<double> __vector(__size);
+          mask->getRegion(0, __size, __vector.data());
+          return __vector;
+        }(),
+        maskWidth,
+        maskHeight
       );
     }
 
@@ -55,7 +84,7 @@ namespace margelo::nitro::pozea::pose {
      */
     [[maybe_unused]]
     static jni::local_ref<JPoseResult::javaobject> fromCpp(const PoseResult& value) {
-      using JSignature = JPoseResult(jni::alias_ref<jni::JArrayDouble>, double, double);
+      using JSignature = JPoseResult(jni::alias_ref<jni::JArrayDouble>, double, double, double, jboolean, double, double, double, jni::alias_ref<jni::JArrayDouble>, double, double);
       static const auto clazz = javaClassStatic();
       static const auto create = clazz->getStaticMethod<JSignature>("fromCpp");
       return create(
@@ -67,7 +96,20 @@ namespace margelo::nitro::pozea::pose {
           return __array;
         }(),
         value.rotationDegrees,
-        value.inferenceMs
+        value.inferenceMs,
+        value.uprightAspect,
+        value.hasFace,
+        value.smile,
+        value.pitch,
+        value.yaw,
+        [&]() {
+          size_t __size = value.mask.size();
+          jni::local_ref<jni::JArrayDouble> __array = jni::JArrayDouble::newArray(__size);
+          __array->setRegion(0, __size, value.mask.data());
+          return __array;
+        }(),
+        value.maskWidth,
+        value.maskHeight
       );
     }
   };

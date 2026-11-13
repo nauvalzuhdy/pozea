@@ -26,7 +26,31 @@ data class PoseResult(
   val rotationDegrees: Double,
   @DoNotStrip
   @Keep
-  val inferenceMs: Double
+  val inferenceMs: Double,
+  @DoNotStrip
+  @Keep
+  val uprightAspect: Double,
+  @DoNotStrip
+  @Keep
+  val hasFace: Boolean,
+  @DoNotStrip
+  @Keep
+  val smile: Double,
+  @DoNotStrip
+  @Keep
+  val pitch: Double,
+  @DoNotStrip
+  @Keep
+  val yaw: Double,
+  @DoNotStrip
+  @Keep
+  val mask: DoubleArray,
+  @DoNotStrip
+  @Keep
+  val maskWidth: Double,
+  @DoNotStrip
+  @Keep
+  val maskHeight: Double
 ) {
   /* primary constructor */
 
@@ -36,13 +60,29 @@ data class PoseResult(
     return Objects.deepEquals(this.landmarks, other.landmarks)
       && Objects.deepEquals(this.rotationDegrees, other.rotationDegrees)
       && Objects.deepEquals(this.inferenceMs, other.inferenceMs)
+      && Objects.deepEquals(this.uprightAspect, other.uprightAspect)
+      && Objects.deepEquals(this.hasFace, other.hasFace)
+      && Objects.deepEquals(this.smile, other.smile)
+      && Objects.deepEquals(this.pitch, other.pitch)
+      && Objects.deepEquals(this.yaw, other.yaw)
+      && Objects.deepEquals(this.mask, other.mask)
+      && Objects.deepEquals(this.maskWidth, other.maskWidth)
+      && Objects.deepEquals(this.maskHeight, other.maskHeight)
   }
 
   override fun hashCode(): Int {
     return arrayOf<Any?>(
       landmarks,
       rotationDegrees,
-      inferenceMs
+      inferenceMs,
+      uprightAspect,
+      hasFace,
+      smile,
+      pitch,
+      yaw,
+      mask,
+      maskWidth,
+      maskHeight
     ).contentDeepHashCode()
   }
 
@@ -54,8 +94,8 @@ data class PoseResult(
     @Keep
     @Suppress("unused")
     @JvmStatic
-    private fun fromCpp(landmarks: DoubleArray, rotationDegrees: Double, inferenceMs: Double): PoseResult {
-      return PoseResult(landmarks, rotationDegrees, inferenceMs)
+    private fun fromCpp(landmarks: DoubleArray, rotationDegrees: Double, inferenceMs: Double, uprightAspect: Double, hasFace: Boolean, smile: Double, pitch: Double, yaw: Double, mask: DoubleArray, maskWidth: Double, maskHeight: Double): PoseResult {
+      return PoseResult(landmarks, rotationDegrees, inferenceMs, uprightAspect, hasFace, smile, pitch, yaw, mask, maskWidth, maskHeight)
     }
   }
 }
