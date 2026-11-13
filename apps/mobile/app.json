@@ -52,7 +52,18 @@
           }
         }
       ],
-      "./plugins/withGradleMemory"
+      "./plugins/withGradleMemory",
+      "expo-sqlite",
+      [
+        "expo-media-library",
+        {
+          "savePhotosPermission": "Pozea menyimpan foto hasil jepretan ke galerimu.",
+          "isAccessMediaLocationEnabled": false,
+          "granularPermissions": [
+            "photo"
+          ]
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,

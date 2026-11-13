@@ -3,15 +3,20 @@
   "version": "1.0.0",
   "main": "expo-router/entry",
   "dependencies": {
+    "@expo/vector-icons": "^15.0.2",
     "@shopify/react-native-skia": "2.14.0",
     "expo": "~58.0.25",
     "expo-build-properties": "~58.0.12",
     "expo-constants": "~58.0.16",
     "expo-dev-client": "~58.0.20",
     "expo-font": "~58.0.12",
+    "expo-haptics": "~58.0.8",
+    "expo-image-manipulator": "~58.0.16",
     "expo-linking": "~58.0.17",
+    "expo-media-library": "~58.0.14",
     "expo-router": "~58.0.31",
     "expo-splash-screen": "~58.0.14",
+    "expo-sqlite": "~58.0.17",
     "expo-status-bar": "~58.0.5",
     "expo-system-ui": "~58.0.7",
     "pozea-pose": "file:./modules/pozea-pose",
@@ -44,7 +49,7 @@
     "web": "expo start --web",
     "lint": "expo lint",
     "typecheck": "tsc --noEmit",
-    "test": "node --test src/features/pose-engine/*.test.ts"
+    "test": "node --test 'src/features/**/*.test.ts'"
   },
   "private": true
 }
