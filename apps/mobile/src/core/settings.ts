@@ -31,4 +31,10 @@ export const settings = {
   /** Silhouette opacity from the camera slider, 0.1...1. */
   silhouetteOpacity: () => read('camera.silhouetteOpacity', 0.55),
   setSilhouetteOpacity: (value: number) => write('camera.silhouetteOpacity', value),
+  /** Spoken instructions on the camera. */
+  voiceOn: () => read('camera.voiceOn', true),
+  setVoiceOn: (value: boolean) => write('camera.voiceOn', value),
+  /** The tip to install an Indonesian text-to-speech voice is shown once. */
+  voiceTipShown: () => read('camera.voiceTipShown', false),
+  setVoiceTipShown: () => write('camera.voiceTipShown', true),
 };

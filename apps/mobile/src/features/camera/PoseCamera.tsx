@@ -4,6 +4,8 @@ import * as Haptics from 'expo-haptics';
 import { createPoseDetector } from 'pozea-pose';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import {
+  Alert,
+  AppState,
   Image,
   Linking,
   Pressable,
@@ -38,6 +40,16 @@ import { settings } from '@/core/settings';
 import { colors } from '@/core/theme';
 import { cachedPhrases, refreshPhrases } from '@/features/cues/phraseCache';
 import { cueText } from '@/features/cues/phrases';
+import { hasIndonesianVoice, hush, say } from '@/features/cues/speaker';
+import {
+  COUNTDOWN_MS,
+  COUNTDOWN_WORDS,
+  countdownIndex,
+  HOLD_PHRASE,
+  INITIAL_VOICE,
+  nextUtterance,
+  spoke,
+} from '@/features/cues/voice';
 import { affineFromPoints, mapPoints, type Affine } from '@/features/pose-engine/affine';
 import { maskContour } from '@/features/pose-engine/contour';
 import { detectCues, INITIAL_CUE, nextCue, type CueCode } from '@/features/pose-engine/cues';
@@ -45,8 +57,8 @@ import { toPixels } from '@/features/pose-engine/geometry';
 import { BONES, LANDMARK_COUNT, MIN_VISIBILITY, uprightToFrame } from '@/features/pose-engine/landmarks';
 import { INITIAL_MATCHER, stepMatcher } from '@/features/pose-engine/matcher';
 import { scorePose } from '@/features/pose-engine/score';
-import { jointAngles } from '@/features/pose-engine/template';
-import { findPose, POSES, type Pose } from '@/features/poses/catalog';
+import { freeHandOffsets, jointAngles } from '@/features/pose-engine/template';
+import { findCategory, findPose, posesIn, type Pose } from '@/features/poses/catalog';
 
 import { cropAndSave, type ViewGeometry } from './capture';
 import { cropRect, fitSilhouette, RATIOS, type RatioId } from './layout';
@@ -106,11 +118,13 @@ function LivePoseCamera({ initialPose, onClose }: { initialPose?: string; onClos
   const camera = useRef<CameraRef>(null);
 
   const [pose, setPose] = useState<Pose>(() => findPose(initialPose));
-  const [position, setPosition] = useState<'back' | 'front'>('back');
+  // Selfies open on the front camera, full-body poses on the back one.
+  const [position, setPosition] = useState<'back' | 'front'>(() => findCategory(findPose(initialPose).category).camera);
   const [ratio, setRatio] = useState<RatioId>('3:4');
   const [flash, setFlash] = useState<FlashMode>('off');
   const [timer, setTimer] = useState<(typeof TIMERS)[number]>(0);
   const [opacity, setOpacity] = useState(() => settings.silhouetteOpacity());
+  const [voiceOn, setVoiceOn] = useState(() => settings.voiceOn());
   const [variations, setVariations] = useState(() => cachedPhrases(findPose(initialPose).slug));
   const [cue, setCue] = useState<{ code: CueCode; pick: number }>({ code: 'FULL_BODY', pick: 0 });
   const [matched, setMatched] = useState(false);
@@ -147,6 +161,12 @@ function LivePoseCamera({ initialPose, onClose }: { initialPose?: string; onClos
   const geometry = useRef<ViewGeometry | null>(null);
   const captureSettings = useRef({ flash, position });
   const totals = useRef({ frames: 0, ms: 0, since: 0 });
+  const variationsRef = useRef(variations);
+  const cuePick = useRef(0);
+  const voiceRef = useRef(voiceOn);
+  const voice = useRef(INITIAL_VOICE);
+  /** Countdown words already said for the current match. */
+  const countdownSaid = useRef(0);
 
   const crop = cropRect(
     view.width,
@@ -162,6 +182,39 @@ function LivePoseCamera({ initialPose, onClose }: { initialPose?: string; onClos
   useEffect(() => {
     captureSettings.current = { flash, position };
   }, [flash, position]);
+  useEffect(() => {
+    variationsRef.current = variations;
+  }, [variations]);
+  useEffect(() => {
+    voiceRef.current = voiceOn;
+    if (!voiceOn) hush();
+  }, [voiceOn]);
+
+  // Speech stops when the app leaves the foreground and when the camera closes.
+  useEffect(() => {
+    const sub = AppState.addEventListener('change', (state) => {
+      if (state !== 'active') hush();
+    });
+    return () => {
+      sub.remove();
+      hush();
+    };
+  }, []);
+
+  // Once: without an Indonesian voice Android reads the text with its default voice, so suggest
+  // installing one. The engine lists no voices right after start, so ask a little later.
+  useEffect(() => {
+    if (!settings.voiceOn() || settings.voiceTipShown()) return;
+    const id = setTimeout(async () => {
+      if ((await hasIndonesianVoice()) !== false) return;
+      settings.setVoiceTipShown();
+      Alert.alert(
+        'Suara bahasa Indonesia belum terpasang',
+        'Instruksi tetap dibacakan dengan suara bawaan HP. Supaya lebih jelas, pasang paket suara Bahasa Indonesia di Pengaturan HP > Text-to-speech.',
+      );
+    }, 1500);
+    return () => clearTimeout(id);
+  }, []);
   useEffect(() => {
     geometry.current = view.width > 0 ? { width: view.width, height: view.height, crop } : null;
   });
@@ -206,7 +259,11 @@ function LivePoseCamera({ initialPose, onClose }: { initialPose?: string; onClos
     flashOverlay.set(withSequence(withTiming(0.9, { duration: 60 }), withTiming(0, { duration: 280 })));
     try {
       const { flash: mode, position: side } = captureSettings.current;
-      const file = await photoOutput.capturePhotoToFile({ flashMode: side === 'back' ? mode : 'off' }, {});
+      const file = await photoOutput.capturePhotoToFile(
+        { flashMode: side === 'back' ? mode : 'off', enableShutterSound: true },
+        {},
+      );
+      void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
       setLastPhoto(await cropAndSave(file.filePath, g));
       setError(null);
     } catch (e) {
@@ -222,6 +279,8 @@ function LivePoseCamera({ initialPose, onClose }: { initialPose?: string; onClos
     matcher.current = INITIAL_MATCHER;
     cueState.current = INITIAL_CUE;
     matchedRef.current = false;
+    voice.current = INITIAL_VOICE;
+    hush();
     setPose(next);
     setVariations(cachedPhrases(next.slug));
     setMatched(false);
@@ -252,8 +311,13 @@ function LivePoseCamera({ initialPose, onClose }: { initialPose?: string; onClos
     const seen = f.landmarks.length === LANDMARK_COUNT * 3;
     const pixels = seen ? toPixels(f.landmarks, f.aspect * 1000, 1000) : [];
     const angles = seen ? jointAngles(pixels) : {};
-    const raw = seen ? scorePose(angles, current.template) : 0;
-    const step = stepMatcher(matcher.current, raw, now, current.match);
+    const face = f.face ? { smile: f.face[0] < 0 ? 1 : f.face[0], pitch: f.face[1], yaw: f.face[2] } : null;
+    const raw = seen
+      ? scorePose(angles, current.template, { hands: freeHandOffsets(pixels), smile: face?.smile ?? null })
+      : 0;
+    // With voice on, "tiga, dua, satu" runs after the hold, so the photo waits for it.
+    const countdownMs = voiceRef.current ? COUNTDOWN_MS : 0;
+    const step = stepMatcher(matcher.current, raw, now, current.match, countdownMs);
     matcher.current = step.state;
 
     skeleton.set(m && seen ? mapPoints(m, f.landmarks, 3) : []);
@@ -268,18 +332,45 @@ function LivePoseCamera({ initialPose, onClose }: { initialPose?: string; onClos
     hold.set(step.holdProgress);
     matchedFlag.set(step.state.matched ? 1 : 0);
 
-    const face = f.face ? { smile: f.face[0] < 0 ? 1 : f.face[0], pitch: f.face[1], yaw: f.face[2] } : null;
-    const candidates = detectCues({ landmarks: pixels, frameWidth: f.aspect * 1000, frameHeight: 1000, face, angles }, current.template, current.match);
+    const candidates = detectCues(
+      { landmarks: pixels, frameWidth: f.aspect * 1000, frameHeight: 1000, face, angles },
+      current.template,
+      current.match,
+    );
     const next = nextCue(cueState.current, candidates, step.state.matched, now);
     if (next !== cueState.current) {
       cueState.current = next;
-      setCue({ code: next.code ?? 'FULL_BODY', pick: Math.random() });
+      cuePick.current = Math.random();
+      setCue({ code: next.code ?? 'FULL_BODY', pick: cuePick.current });
     }
 
     if (step.state.matched !== matchedRef.current) {
       matchedRef.current = step.state.matched;
       setMatched(step.state.matched);
       if (step.justMatched) void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      // A broken pose cancels the countdown mid-word.
+      if (!step.state.matched && voiceRef.current) hush();
+    }
+
+    if (voiceRef.current) {
+      const m = step.state;
+      if (step.justMatched) {
+        say(HOLD_PHRASE);
+        voice.current = spoke(voice.current, 'MATCHED', now);
+        countdownSaid.current = 0;
+      } else if (m.matched && (m.armed || step.capture)) {
+        const index = countdownIndex(now - m.matchedSince, current.match.holdMs);
+        if (index >= countdownSaid.current) {
+          say(COUNTDOWN_WORDS[index], { queue: true });
+          voice.current = spoke(voice.current, 'MATCHED', now);
+          countdownSaid.current = index + 1;
+        }
+      } else if (!m.matched) {
+        const code = cueState.current.code ?? 'FULL_BODY';
+        const r = nextUtterance(voice.current, code, now);
+        voice.current = r.state;
+        if (r.speak) say(cueText(code, current.cues, variationsRef.current, cuePick.current).title);
+      }
     }
     const pct = Math.round(step.state.smoothed * 100);
     if (pct !== chip.current.value && now - chip.current.at > 250) {
@@ -414,7 +505,13 @@ function LivePoseCamera({ initialPose, onClose }: { initialPose?: string; onClos
       {view.width > 0 && (
         <Image
           source={pose.silhouette}
-          style={[styles.silhouette, { left: target.x, top: target.y, width: target.width, height: target.height, opacity }]}
+          style={[
+            styles.silhouette,
+            { left: target.x, top: target.y, width: target.width, height: target.height, opacity },
+            // The front preview is mirrored, so the target is too: a raised right hand shows on the
+            // same side as the user's own right hand on screen.
+            position === 'front' && styles.mirrored,
+          ]}
           resizeMode="contain"
           pointerEvents="none"
         />
@@ -443,6 +540,14 @@ function LivePoseCamera({ initialPose, onClose }: { initialPose?: string; onClos
           </Text>
         </View>
         <View style={styles.topActions}>
+          <RoundButton
+            icon={voiceOn ? 'volume-high' : 'volume-mute'}
+            label={voiceOn ? 'Suara instruksi nyala' : 'Suara instruksi mati'}
+            onPress={() => {
+              settings.setVoiceOn(!voiceOn);
+              setVoiceOn(!voiceOn);
+            }}
+          />
           <RoundButton
             icon={FLASH_ICONS[flash as keyof typeof FLASH_ICONS]}
             label={`Flash ${flash === 'off' ? 'mati' : flash === 'on' ? 'nyala' : 'otomatis'}`}
@@ -524,7 +629,7 @@ function LivePoseCamera({ initialPose, onClose }: { initialPose?: string; onClos
       </View>
 
       <View style={[styles.strip, { bottom: insets.bottom + 4 }]}>
-        <PoseStrip poses={POSES} selected={pose.slug} onSelect={selectPose} />
+        <PoseStrip poses={posesIn(pose.category)} selected={pose.slug} onSelect={selectPose} />
       </View>
 
       <Animated.View style={[StyleSheet.absoluteFill, styles.flash, flashStyle]} pointerEvents="none" />
@@ -634,6 +739,7 @@ const glass = 'rgba(11, 21, 48, 0.62)';
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: '#000' },
   silhouette: { position: 'absolute' },
+  mirrored: { transform: [{ scaleX: -1 }] },
   bracket: { position: 'absolute', borderColor: '#FFFFFF' },
   frame: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, borderRadius: 28 },
   frameIdle: { borderWidth: 2, borderColor: 'rgba(46, 59, 102, 0.8)' },
