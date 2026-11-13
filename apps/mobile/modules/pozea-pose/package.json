@@ -1,0 +1,17 @@
+{
+  "name": "pozea-pose",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Pozea pose detection: a VisionCamera v5 frame processor plugin with ML Kit and MediaPipe backends.",
+  "main": "src/index.ts",
+  "react-native": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "specs": "nitrogen"
+  },
+  "peerDependencies": {
+    "react-native": "*",
+    "react-native-nitro-modules": "*",
+    "react-native-vision-camera": "*"
+  }
+}

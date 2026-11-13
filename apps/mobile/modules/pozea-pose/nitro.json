@@ -1,0 +1,20 @@
+{
+  "$schema": "https://nitro.margelo.com/nitro.schema.json",
+  "cxxNamespace": ["pozea", "pose"],
+  "ios": {
+    "iosModuleName": "PozeaPose"
+  },
+  "android": {
+    "androidNamespace": ["pozea", "pose"],
+    "androidCxxLibName": "PozeaPose"
+  },
+  "autolinking": {
+    "PoseDetector": {
+      "android": {
+        "language": "kotlin",
+        "implementationClassName": "HybridPoseDetector"
+      }
+    }
+  },
+  "ignorePaths": ["**/node_modules"]
+}

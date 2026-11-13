@@ -1,36 +1,57 @@
-# Pozea – Landing page
+# Pozea
 
-Landing page statis (HTML + CSS + JavaScript biasa, tanpa build tool).
+Pozea is an AI personal photographer: it guides you into a pose on the camera screen and takes the photo when the pose matches. The architecture is described in the "Pozea system architecture" document in Amp.
 
-## Menjalankan di VS Code
+## Repository layout
 
-1. Buka folder `pozea-web` di VS Code.
-2. Pasang ekstensi **Live Server** (Ritwick Dey).
-3. Klik kanan `index.html` → **Open with Live Server**.
-
-Bisa juga lewat terminal: `npx serve .` atau `python3 -m http.server 8000`, lalu buka `http://localhost:8000`.
-
-## Struktur
-
-```
-index.html              # semua section halaman
-assets/css/style.css    # gaya global, responsif, animasi
-assets/js/main.js       # logika form waitlist
-assets/video/           # video demo (hero, pose, langkah 2–3)
-assets/img/             # poster video, foto "Untuk siapa", thumbnail pose
+```text
+apps/
+  landing/    Landing page and waitlist (plain HTML, CSS, JS; Brevo form). No build step.
+  mobile/     The app: React Native + Expo (TypeScript), Expo Router.
+supabase/
+  migrations/ Postgres schema and Row Level Security, one timestamped SQL file per change.
 ```
 
-Sebagian besar gaya masih ditulis inline (`style="…"`) di `index.html`,
-sesuai versi desain aslinya. Gaya yang dipakai ulang dan aturan responsif ada di `style.css`.
+Inside `apps/mobile/src/`:
 
-## Yang perlu diisi sebelum rilis
+```text
+app/        Routes (Expo Router). Every file is a screen; keep other code out of here.
+core/       Theme tokens and shared UI.
+features/   One folder per feature (setup, pose catalog, camera, pose engine, ...).
+data/       Repositories: the only code that talks to Supabase, R2, or SQLite (added in phase 1).
+```
 
-- **Form waitlist:** isi `WAITLIST_ENDPOINT` di `assets/js/main.js` dengan URL
-  dari layanan yang kamu pilih (Formspree, Brevo, MailerLite, dll.) supaya email tersimpan
-  dan pendaftar mendapat email konfirmasi.
-- **Link toko aplikasi:** tombol Google Play masih `href="#"`. Ganti dengan link Play Store
-  dan badge resmi.
-- **Link sosial media:** TikTok dan Instagram di footer masih `href="#"`.
-- **Halaman legal:** Kebijakan Privasi, Syarat dan Ketentuan, Kebijakan Cookie masih `#privacy`, `#terms`, `#cookies`.
-- **Teks bertanda [ … ]** di FAQ adalah placeholder yang perlu diganti dengan info asli.
-- **Hak pakai foto:** pastikan kamu punya izin untuk semua foto di `assets/img/usecase-*.jpg`.
+## Commands
+
+Landing page:
+
+```sh
+cd apps/landing
+python3 -m http.server 8000   # or VS Code Live Server
+```
+
+Mobile app:
+
+```sh
+cd apps/mobile
+npm install
+npx expo start      # dev server; camera features need a development build, not Expo Go
+npm run lint
+npm run typecheck
+npx expo install <package>   # add dependencies with this, so versions match the Expo SDK
+```
+
+Database:
+
+```sh
+supabase db push    # apply supabase/migrations to the linked Supabase project
+```
+
+## Conventions
+
+- TypeScript everywhere outside the landing page. Code, identifiers, and comments are in English; user-facing copy is in Indonesian.
+- Pose scoring and other logic stays in pure TypeScript under `features/`, with no camera or React imports, so it can be unit tested.
+- Per-frame camera data lives in Reanimated shared values and is drawn with Skia, never in React state.
+- Every table has Row Level Security. The app only holds the Supabase anon key; service keys and AI keys live in Edge Function secrets.
+- The database stores R2 object keys, not full URLs.
+- Migrations only add. Drop a column only after no released app version reads it.
