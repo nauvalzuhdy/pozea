@@ -9,9 +9,27 @@ import type { MatchSettings, PoseTemplate } from '@/features/pose-engine/templat
 
 import catalog from './catalog.json';
 
+export type CategoryId = 'selfie' | 'body';
+
+export interface Category {
+  id: CategoryId;
+  title: string;
+  description: string;
+  /** Camera the pose screen opens with. */
+  camera: 'front' | 'back';
+}
+
+export const CATEGORIES: readonly Category[] = [
+  { id: 'selfie', title: 'Selfie', description: 'Wajah dan bahu, pakai kamera depan', camera: 'front' },
+  { id: 'body', title: 'Seluruh badan', description: 'Dari kepala sampai kaki, HP ditaruh atau dipegang teman', camera: 'back' },
+];
+
 export interface Pose {
   slug: string;
   title: string;
+  category: CategoryId;
+  /** One line under the title in the pose menu. */
+  description: string;
   thumbnail: ImageSourcePropType;
   /** White transparent PNG drawn over the camera as the target. */
   silhouette: number;
@@ -22,6 +40,30 @@ export interface Pose {
 }
 
 const images: Record<string, { thumbnail: number; silhouette: number }> = {
+  'selfie-smile': {
+    thumbnail: require('../../../assets/poses/thumbnails/selfie-smile.jpg'),
+    silhouette: require('../../../assets/poses/silhouettes/selfie-smile.png'),
+  },
+  'selfie-peace': {
+    thumbnail: require('../../../assets/poses/thumbnails/selfie-peace.jpg'),
+    silhouette: require('../../../assets/poses/silhouettes/selfie-peace.png'),
+  },
+  'selfie-chin': {
+    thumbnail: require('../../../assets/poses/thumbnails/selfie-chin.jpg'),
+    silhouette: require('../../../assets/poses/silhouettes/selfie-chin.png'),
+  },
+  'selfie-tilt': {
+    thumbnail: require('../../../assets/poses/thumbnails/selfie-tilt.jpg'),
+    silhouette: require('../../../assets/poses/silhouettes/selfie-tilt.png'),
+  },
+  'selfie-three-quarter': {
+    thumbnail: require('../../../assets/poses/thumbnails/selfie-three-quarter.jpg'),
+    silhouette: require('../../../assets/poses/silhouettes/selfie-three-quarter.png'),
+  },
+  'selfie-wave': {
+    thumbnail: require('../../../assets/poses/thumbnails/selfie-wave.jpg'),
+    silhouette: require('../../../assets/poses/silhouettes/selfie-wave.png'),
+  },
   'peace-sign': {
     thumbnail: require('../../../assets/poses/thumbnails/peace-sign.jpg'),
     silhouette: require('../../../assets/poses/silhouettes/peace-sign.png'),
@@ -54,4 +96,12 @@ export const POSES: readonly Pose[] = (catalog.poses as unknown as CatalogPose[]
 
 export function findPose(slug: string | undefined): Pose {
   return POSES.find((p) => p.slug === slug) ?? POSES[0];
+}
+
+export function posesIn(category: CategoryId): readonly Pose[] {
+  return POSES.filter((p) => p.category === category);
+}
+
+export function findCategory(id: CategoryId): Category {
+  return CATEGORIES.find((c) => c.id === id)!;
 }

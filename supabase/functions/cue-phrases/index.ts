@@ -10,12 +10,16 @@
 
 import { createClient } from 'npm:@supabase/supabase-js@2';
 
-const POSES = new Set(['peace-sign', 'leaning', 'walking', 'look-back', 'crouch']);
+const POSES = new Set([
+  'peace-sign', 'leaning', 'walking', 'look-back', 'crouch',
+  'selfie-smile', 'selfie-peace', 'selfie-chin', 'selfie-tilt', 'selfie-three-quarter', 'selfie-wave',
+]);
 const CODES = new Set([
   'FULL_BODY', 'STEP_BACK', 'STEP_CLOSER', 'RAISE_LEFT_HAND', 'RAISE_RIGHT_HAND', 'LOWER_LEFT_HAND',
   'LOWER_RIGHT_HAND', 'STRAIGHTEN_ELBOW_LEFT', 'STRAIGHTEN_ELBOW_RIGHT', 'BEND_ELBOW_LEFT',
   'BEND_ELBOW_RIGHT', 'BEND_KNEES', 'STRAIGHTEN_KNEES', 'SMILE', 'CHIN_UP', 'CHIN_DOWN', 'FACE_CAMERA',
-  'TURN_LEFT', 'TURN_RIGHT', 'FOLLOW_SILHOUETTE', 'MATCHED',
+  'TURN_LEFT', 'TURN_RIGHT', 'FOLLOW_SILHOUETTE', 'RAISE_HAND', 'LOWER_HAND', 'HAND_CLOSER', 'HAND_WIDER',
+  'TILT_HEAD', 'LEVEL_HEAD', 'TURN_HEAD', 'MATCHED',
 ]);
 const CACHE_MS = 7 * 24 * 60 * 60 * 1000;
 const MAX_WORDS = 6;
@@ -43,6 +47,13 @@ const MEANINGS: Record<string, string> = {
   TURN_LEFT: 'tengok ke kiri',
   TURN_RIGHT: 'tengok ke kanan',
   FOLLOW_SILHOUETTE: 'samakan posisi badan dengan siluet',
+  RAISE_HAND: 'angkat satu tangan',
+  LOWER_HAND: 'turunkan tangan sedikit',
+  HAND_CLOSER: 'dekatkan tangan ke wajah',
+  HAND_WIDER: 'jauhkan tangan dari wajah',
+  TILT_HEAD: 'miringkan kepala sedikit',
+  LEVEL_HEAD: 'tegakkan kepala',
+  TURN_HEAD: 'tengokkan wajah sedikit ke samping',
   MATCHED: 'pose sudah pas, tahan sebentar',
 };
 

@@ -1,5 +1,5 @@
 // Builds src/features/poses/catalog.json from detected landmarks and poses.config.json.
-// Usage: node scripts/pose-templates/build-templates.ts landmarks.json
+// Usage: node scripts/pose-templates/build-templates.ts scripts/pose-templates/landmarks.json
 // It uses the app's own templateFromLandmarks, so templates and live scoring measure the same way.
 
 import { readFileSync, writeFileSync } from 'node:fs';
@@ -11,22 +11,38 @@ import {
   DEFAULT_MATCH,
   templateFromLandmarks,
   type FaceTarget,
+  type Framing,
   type JointId,
   type JointTarget,
   type MatchSettings,
 } from '../../src/features/pose-engine/template.ts';
 
+type Cues = Record<string, { title: string; detail: string }>;
+
 interface PoseConfig {
   slug: string;
   title: string;
-  swapSides: boolean;
+  category: string;
+  description: string;
+  framing: Framing;
+  swapSides?: boolean;
   keep: JointId[];
   weights: Partial<Record<JointId, number>>;
   override: Partial<Record<JointId, Partial<JointTarget>>>;
-  hands: ('left' | 'right')[];
+  /** Body framing: hands to guide. */
+  hands?: ('left' | 'right')[];
+  /** Selfie framing: the free hand in the example photo. */
+  freeHand?: { side: 'left' | 'right'; tolerance: number; weight: number };
   face: FaceTarget | null;
   match?: Partial<MatchSettings>;
-  cues: Record<string, { title: string; detail: string }>;
+  cues: Cues;
+}
+
+interface Config {
+  defaults: { tolerance: number };
+  /** Settings and copy every pose of a framing starts from. */
+  framings: Record<Framing, { match: Partial<MatchSettings>; cues: Cues }>;
+  poses: PoseConfig[];
 }
 
 // Left/right landmark pairs in the BlazePose topology (face, arms, hands, legs, feet).
@@ -47,43 +63,58 @@ function swapSides(landmarks: number[]): number[] {
 }
 
 const here = dirname(fileURLToPath(import.meta.url));
-const config = JSON.parse(readFileSync(join(here, 'poses.config.json'), 'utf8'));
+const config = JSON.parse(readFileSync(join(here, 'poses.config.json'), 'utf8')) as Config;
 const detected = JSON.parse(readFileSync(process.argv[2], 'utf8'));
 
-const poses = (config.poses as PoseConfig[]).map((pose) => {
+const poses = config.poses.map((pose) => {
   const found = detected[pose.slug];
   if (!found || found.landmarks.length !== LANDMARK_COUNT * 3) throw new Error(`No landmarks for ${pose.slug}`);
   // Mannequin renders get low visibility scores although the positions are usable; which joints
-  // to trust is decided by `keep` instead.
-  let landmarks: number[] = found.landmarks.map((v: number, i: number) => (i % 3 === 2 ? 1 : v));
+  // to trust is decided by `keep` instead. Selfie examples are real photos: their visibility
+  // tells which points are out of the frame, so it is kept.
+  let landmarks: number[] =
+    pose.framing === 'body' ? found.landmarks.map((v: number, i: number) => (i % 3 === 2 ? 1 : v)) : found.landmarks;
   if (pose.swapSides) landmarks = swapSides(landmarks);
 
   const built = templateFromLandmarks(landmarks, {
     tolerance: config.defaults.tolerance,
     weights: pose.weights,
     face: pose.face,
+    framing: pose.framing,
+    freeHand: pose.freeHand,
   });
   const joints: Partial<Record<JointId, JointTarget>> = {};
   for (const id of pose.keep) {
     const base = built.joints[id];
     const override = pose.override[id];
-    if (!base && !override?.angle) throw new Error(`${pose.slug}: no angle for ${id}`);
+    if (!base && override?.angle === undefined) throw new Error(`${pose.slug}: no angle for ${id}`);
     joints[id] = {
       angle: override?.angle ?? base!.angle,
       tolerance: override?.tolerance ?? base?.tolerance ?? config.defaults.tolerance,
       weight: pose.weights[id] ?? 1,
+      ...(override?.falloff !== undefined ? { falloff: override.falloff } : {}),
     };
   }
-  const hands = Object.fromEntries(pose.hands.map((side) => [side, built.hands[side]]));
+  if (pose.freeHand && !built.freeHand) throw new Error(`${pose.slug}: free hand not visible`);
+  const hands = Object.fromEntries((pose.hands ?? []).map((side) => [side, built.hands[side]]));
+  const framing = config.framings[pose.framing];
   return {
     slug: pose.slug,
     title: pose.title,
-    template: { joints, hands, face: pose.face },
-    cues: pose.cues,
-    match: { ...DEFAULT_MATCH, ...pose.match },
+    category: pose.category,
+    description: pose.description,
+    template: {
+      framing: pose.framing,
+      joints,
+      hands,
+      ...(built.freeHand ? { freeHand: built.freeHand } : {}),
+      face: pose.face,
+    },
+    cues: { ...framing.cues, ...pose.cues },
+    match: { ...DEFAULT_MATCH, ...framing.match, ...pose.match },
   };
 });
 
 const target = join(here, '../../src/features/poses/catalog.json');
-writeFileSync(target, JSON.stringify({ schemaVersion: 1, poses }, null, 2) + '\n');
+writeFileSync(target, JSON.stringify({ schemaVersion: 2, poses }, null, 2) + '\n');
 console.log(`Wrote ${poses.length} poses to ${target}`);

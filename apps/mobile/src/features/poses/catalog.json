@@ -1,10 +1,415 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "poses": [
+    {
+      "slug": "selfie-smile",
+      "title": "Senyum klasik",
+      "category": "selfie",
+      "description": "Hadap kamera, kepala tegak, senyum lebar",
+      "template": {
+        "framing": "selfie",
+        "joints": {
+          "headTilt": {
+            "angle": 0,
+            "tolerance": 12,
+            "weight": 1,
+            "falloff": 15
+          },
+          "faceTurn": {
+            "angle": 0,
+            "tolerance": 15,
+            "weight": 1,
+            "falloff": 15
+          }
+        },
+        "hands": {},
+        "face": {
+          "smileMin": 0.6,
+          "pitch": 0,
+          "yaw": 0
+        }
+      },
+      "cues": {
+        "FULL_BODY": {
+          "title": "Tunjukkan wajahmu",
+          "detail": "Wajah dan kedua telinga harus terlihat"
+        },
+        "STEP_BACK": {
+          "title": "Jauhkan HP sedikit",
+          "detail": "Wajahmu terlalu dekat dengan kamera"
+        },
+        "STEP_CLOSER": {
+          "title": "Dekatkan HP sedikit",
+          "detail": "Wajahmu terlalu kecil di foto"
+        },
+        "SMILE": {
+          "title": "Senyum lebar dong",
+          "detail": "Senyum sampai giginya kelihatan"
+        }
+      },
+      "match": {
+        "enter": 0.85,
+        "exit": 0.75,
+        "holdMs": 600,
+        "smoothing": 0.3,
+        "minVisible": 9,
+        "minBodyHeight": 0.5,
+        "maxBodyHeight": 0.95,
+        "minFaceWidth": 0.15,
+        "maxFaceWidth": 0.6,
+        "handTolerance": 0.35,
+        "pitchTolerance": 20,
+        "yawTolerance": 15
+      }
+    },
+    {
+      "slug": "selfie-peace",
+      "title": "Peace di pipi",
+      "category": "selfie",
+      "description": "Tanda peace di samping pipi",
+      "template": {
+        "framing": "selfie",
+        "joints": {
+          "headTilt": {
+            "angle": 0,
+            "tolerance": 12,
+            "weight": 1,
+            "falloff": 15
+          },
+          "faceTurn": {
+            "angle": 0,
+            "tolerance": 15,
+            "weight": 1,
+            "falloff": 15
+          }
+        },
+        "hands": {},
+        "freeHand": {
+          "x": 1.08,
+          "y": 1.19,
+          "tolerance": 0.3,
+          "weight": 2
+        },
+        "face": {
+          "smileMin": 0.5,
+          "pitch": 0,
+          "yaw": 0
+        }
+      },
+      "cues": {
+        "FULL_BODY": {
+          "title": "Tunjukkan wajahmu",
+          "detail": "Wajah dan kedua telinga harus terlihat"
+        },
+        "STEP_BACK": {
+          "title": "Jauhkan HP sedikit",
+          "detail": "Wajahmu terlalu dekat dengan kamera"
+        },
+        "STEP_CLOSER": {
+          "title": "Dekatkan HP sedikit",
+          "detail": "Wajahmu terlalu kecil di foto"
+        },
+        "RAISE_HAND": {
+          "title": "Angkat tanganmu ke pipi",
+          "detail": "Buat tanda peace di samping wajah"
+        },
+        "HAND_CLOSER": {
+          "title": "Dekatkan peace ke pipi",
+          "detail": "Tangan di samping wajah, jari ke atas"
+        }
+      },
+      "match": {
+        "enter": 0.85,
+        "exit": 0.75,
+        "holdMs": 600,
+        "smoothing": 0.3,
+        "minVisible": 9,
+        "minBodyHeight": 0.5,
+        "maxBodyHeight": 0.95,
+        "minFaceWidth": 0.15,
+        "maxFaceWidth": 0.6,
+        "handTolerance": 0.35,
+        "pitchTolerance": 20,
+        "yawTolerance": 15
+      }
+    },
+    {
+      "slug": "selfie-chin",
+      "title": "Tangan di dagu",
+      "category": "selfie",
+      "description": "Kepalan tangan menopang dagu",
+      "template": {
+        "framing": "selfie",
+        "joints": {
+          "headTilt": {
+            "angle": 0,
+            "tolerance": 12,
+            "weight": 1,
+            "falloff": 15
+          },
+          "faceTurn": {
+            "angle": 0,
+            "tolerance": 15,
+            "weight": 1,
+            "falloff": 15
+          }
+        },
+        "hands": {},
+        "freeHand": {
+          "x": 0.21,
+          "y": 1.52,
+          "tolerance": 0.5,
+          "weight": 2
+        },
+        "face": {
+          "smileMin": null,
+          "pitch": 0,
+          "yaw": 0
+        }
+      },
+      "cues": {
+        "FULL_BODY": {
+          "title": "Tunjukkan wajahmu",
+          "detail": "Wajah dan kedua telinga harus terlihat"
+        },
+        "STEP_BACK": {
+          "title": "Jauhkan HP sedikit",
+          "detail": "Wajahmu terlalu dekat dengan kamera"
+        },
+        "STEP_CLOSER": {
+          "title": "Dekatkan HP sedikit",
+          "detail": "Wajahmu terlalu kecil di foto"
+        },
+        "RAISE_HAND": {
+          "title": "Taruh tangan di bawah dagu",
+          "detail": "Kepalkan pelan, sandarkan dagumu"
+        },
+        "LOWER_HAND": {
+          "title": "Turunkan tangan ke dagu",
+          "detail": "Kepalan tangan tepat di bawah dagu"
+        },
+        "HAND_CLOSER": {
+          "title": "Geser tangan ke bawah dagu",
+          "detail": "Kepalan tangan tepat di bawah dagu"
+        }
+      },
+      "match": {
+        "enter": 0.85,
+        "exit": 0.75,
+        "holdMs": 600,
+        "smoothing": 0.3,
+        "minVisible": 9,
+        "minBodyHeight": 0.5,
+        "maxBodyHeight": 0.95,
+        "minFaceWidth": 0.15,
+        "maxFaceWidth": 0.6,
+        "handTolerance": 0.35,
+        "pitchTolerance": 20,
+        "yawTolerance": 15
+      }
+    },
+    {
+      "slug": "selfie-tilt",
+      "title": "Kepala miring",
+      "category": "selfie",
+      "description": "Miringkan kepala ke arah bahu",
+      "template": {
+        "framing": "selfie",
+        "joints": {
+          "headTilt": {
+            "angle": 25,
+            "tolerance": 8,
+            "weight": 2,
+            "falloff": 15
+          },
+          "faceTurn": {
+            "angle": 0,
+            "tolerance": 20,
+            "weight": 1,
+            "falloff": 15
+          }
+        },
+        "hands": {},
+        "face": {
+          "smileMin": 0.5,
+          "pitch": 0,
+          "yaw": 0
+        }
+      },
+      "cues": {
+        "FULL_BODY": {
+          "title": "Tunjukkan wajahmu",
+          "detail": "Wajah dan kedua telinga harus terlihat"
+        },
+        "STEP_BACK": {
+          "title": "Jauhkan HP sedikit",
+          "detail": "Wajahmu terlalu dekat dengan kamera"
+        },
+        "STEP_CLOSER": {
+          "title": "Dekatkan HP sedikit",
+          "detail": "Wajahmu terlalu kecil di foto"
+        },
+        "TILT_HEAD": {
+          "title": "Miringkan kepalamu sedikit",
+          "detail": "Condongkan kepala ke arah bahu"
+        },
+        "LEVEL_HEAD": {
+          "title": "Jangan terlalu miring",
+          "detail": "Cukup sedikit ke arah bahu"
+        }
+      },
+      "match": {
+        "enter": 0.85,
+        "exit": 0.75,
+        "holdMs": 600,
+        "smoothing": 0.3,
+        "minVisible": 9,
+        "minBodyHeight": 0.5,
+        "maxBodyHeight": 0.95,
+        "minFaceWidth": 0.15,
+        "maxFaceWidth": 0.6,
+        "handTolerance": 0.35,
+        "pitchTolerance": 20,
+        "yawTolerance": 15
+      }
+    },
+    {
+      "slug": "selfie-three-quarter",
+      "title": "Sudut 3/4",
+      "category": "selfie",
+      "description": "Wajah menyamping, mata ke kamera",
+      "template": {
+        "framing": "selfie",
+        "joints": {
+          "faceTurn": {
+            "angle": 30,
+            "tolerance": 10,
+            "weight": 2,
+            "falloff": 15
+          }
+        },
+        "hands": {},
+        "face": {
+          "smileMin": null,
+          "pitch": 0,
+          "yaw": 0
+        }
+      },
+      "cues": {
+        "FULL_BODY": {
+          "title": "Tunjukkan wajahmu",
+          "detail": "Wajah dan kedua telinga harus terlihat"
+        },
+        "STEP_BACK": {
+          "title": "Jauhkan HP sedikit",
+          "detail": "Wajahmu terlalu dekat dengan kamera"
+        },
+        "STEP_CLOSER": {
+          "title": "Dekatkan HP sedikit",
+          "detail": "Wajahmu terlalu kecil di foto"
+        },
+        "TURN_HEAD": {
+          "title": "Tengokkan wajah sedikit",
+          "detail": "Ke samping, mata tetap ke kamera"
+        },
+        "FACE_CAMERA": {
+          "title": "Jangan terlalu menyamping",
+          "detail": "Cukup sepertiga ke samping"
+        }
+      },
+      "match": {
+        "enter": 0.85,
+        "exit": 0.75,
+        "holdMs": 600,
+        "smoothing": 0.3,
+        "minVisible": 9,
+        "minBodyHeight": 0.5,
+        "maxBodyHeight": 0.95,
+        "minFaceWidth": 0.15,
+        "maxFaceWidth": 0.6,
+        "handTolerance": 0.35,
+        "pitchTolerance": 20,
+        "yawTolerance": 15
+      }
+    },
+    {
+      "slug": "selfie-wave",
+      "title": "Lambaian hai",
+      "category": "selfie",
+      "description": "Telapak tangan terbuka di samping kepala",
+      "template": {
+        "framing": "selfie",
+        "joints": {
+          "headTilt": {
+            "angle": 0,
+            "tolerance": 12,
+            "weight": 1,
+            "falloff": 15
+          },
+          "faceTurn": {
+            "angle": 0,
+            "tolerance": 15,
+            "weight": 1,
+            "falloff": 15
+          }
+        },
+        "hands": {},
+        "freeHand": {
+          "x": 1.64,
+          "y": 1.02,
+          "tolerance": 0.3,
+          "weight": 2
+        },
+        "face": {
+          "smileMin": 0.6,
+          "pitch": 0,
+          "yaw": 0
+        }
+      },
+      "cues": {
+        "FULL_BODY": {
+          "title": "Tunjukkan wajahmu",
+          "detail": "Wajah dan kedua telinga harus terlihat"
+        },
+        "STEP_BACK": {
+          "title": "Jauhkan HP sedikit",
+          "detail": "Wajahmu terlalu dekat dengan kamera"
+        },
+        "STEP_CLOSER": {
+          "title": "Dekatkan HP sedikit",
+          "detail": "Wajahmu terlalu kecil di foto"
+        },
+        "RAISE_HAND": {
+          "title": "Angkat tangan, lambaikan",
+          "detail": "Telapak tangan menghadap kamera"
+        },
+        "HAND_WIDER": {
+          "title": "Jauhkan tangan dari wajah",
+          "detail": "Beri jarak antara tangan dan kepala"
+        }
+      },
+      "match": {
+        "enter": 0.85,
+        "exit": 0.75,
+        "holdMs": 600,
+        "smoothing": 0.3,
+        "minVisible": 9,
+        "minBodyHeight": 0.5,
+        "maxBodyHeight": 0.95,
+        "minFaceWidth": 0.15,
+        "maxFaceWidth": 0.6,
+        "handTolerance": 0.35,
+        "pitchTolerance": 20,
+        "yawTolerance": 15
+      }
+    },
     {
       "slug": "peace-sign",
       "title": "Peace sign",
+      "category": "body",
+      "description": "Tanda peace, badan tegak",
       "template": {
+        "framing": "body",
         "joints": {
           "rightElbow": {
             "angle": 51,
@@ -77,6 +482,8 @@
         "minVisible": 25,
         "minBodyHeight": 0.5,
         "maxBodyHeight": 0.95,
+        "minFaceWidth": 0.15,
+        "maxFaceWidth": 0.6,
         "handTolerance": 0.35,
         "pitchTolerance": 10,
         "yawTolerance": 15
@@ -85,7 +492,10 @@
     {
       "slug": "leaning",
       "title": "Bersandar",
+      "category": "body",
+      "description": "Sandarkan badan ke dinding",
       "template": {
+        "framing": "body",
         "joints": {
           "leftHip": {
             "angle": 165,
@@ -130,6 +540,8 @@
         "minVisible": 25,
         "minBodyHeight": 0.5,
         "maxBodyHeight": 0.95,
+        "minFaceWidth": 0.15,
+        "maxFaceWidth": 0.6,
         "handTolerance": 0.35,
         "pitchTolerance": 10,
         "yawTolerance": 15
@@ -138,7 +550,10 @@
     {
       "slug": "walking",
       "title": "Berjalan",
+      "category": "body",
+      "description": "Langkah santai ke depan",
       "template": {
+        "framing": "body",
         "joints": {
           "leftHip": {
             "angle": 152,
@@ -188,6 +603,8 @@
         "minVisible": 25,
         "minBodyHeight": 0.5,
         "maxBodyHeight": 0.95,
+        "minFaceWidth": 0.15,
+        "maxFaceWidth": 0.6,
         "handTolerance": 0.35,
         "pitchTolerance": 10,
         "yawTolerance": 15
@@ -196,7 +613,10 @@
     {
       "slug": "look-back",
       "title": "Menoleh ke belakang",
+      "category": "body",
+      "description": "Membelakangi kamera, lalu menoleh",
       "template": {
+        "framing": "body",
         "joints": {
           "leftElbow": {
             "angle": 95,
@@ -251,6 +671,8 @@
         "minVisible": 18,
         "minBodyHeight": 0.5,
         "maxBodyHeight": 0.95,
+        "minFaceWidth": 0.15,
+        "maxFaceWidth": 0.6,
         "handTolerance": 0.35,
         "pitchTolerance": 10,
         "yawTolerance": 15
@@ -259,7 +681,10 @@
     {
       "slug": "crouch",
       "title": "Jongkok",
+      "category": "body",
+      "description": "Jongkok, kedua lutut ditekuk",
       "template": {
+        "framing": "body",
         "joints": {
           "leftHip": {
             "angle": 55,
@@ -303,6 +728,8 @@
         "minVisible": 25,
         "minBodyHeight": 0.5,
         "maxBodyHeight": 0.95,
+        "minFaceWidth": 0.15,
+        "maxFaceWidth": 0.6,
         "handTolerance": 0.35,
         "pitchTolerance": 10,
         "yawTolerance": 15

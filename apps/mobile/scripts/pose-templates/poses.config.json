@@ -1,77 +1,471 @@
 {
-  "$comment": "Input for build-templates.ts. Landmarks come from detect_landmarks.py on the example photo. swapSides fixes photos where the detector reads a front-facing figure as back-facing (the mannequins have no face). keep lists the joints to score; override replaces detected angles that are unreliable.",
-  "defaults": { "tolerance": 20 },
+  "$comment": "Input for build-templates.ts. Landmarks come from detect_landmarks.py on the example photo: mannequin renders for body poses, real selfie photos for selfie poses (the detector needs a real face at close range). swapSides fixes photos where the detector reads a front-facing figure as back-facing (the mannequins have no face). keep lists the joints to score; override replaces detected angles that are unreliable. framings holds what every pose of a framing starts from.",
+  "defaults": {
+    "tolerance": 20
+  },
+  "framings": {
+    "body": {
+      "match": {},
+      "cues": {}
+    },
+    "selfie": {
+      "match": {
+        "minVisible": 9,
+        "pitchTolerance": 20
+      },
+      "cues": {
+        "FULL_BODY": {
+          "title": "Tunjukkan wajahmu",
+          "detail": "Wajah dan kedua telinga harus terlihat"
+        },
+        "STEP_BACK": {
+          "title": "Jauhkan HP sedikit",
+          "detail": "Wajahmu terlalu dekat dengan kamera"
+        },
+        "STEP_CLOSER": {
+          "title": "Dekatkan HP sedikit",
+          "detail": "Wajahmu terlalu kecil di foto"
+        }
+      }
+    }
+  },
   "poses": [
+    {
+      "slug": "selfie-smile",
+      "title": "Senyum klasik",
+      "category": "selfie",
+      "description": "Hadap kamera, kepala tegak, senyum lebar",
+      "framing": "selfie",
+      "keep": [
+        "headTilt",
+        "faceTurn"
+      ],
+      "weights": {},
+      "override": {
+        "headTilt": {
+          "angle": 0,
+          "tolerance": 12,
+          "falloff": 15
+        },
+        "faceTurn": {
+          "angle": 0,
+          "tolerance": 15,
+          "falloff": 15
+        }
+      },
+      "face": {
+        "smileMin": 0.6,
+        "pitch": 0,
+        "yaw": 0
+      },
+      "cues": {
+        "SMILE": {
+          "title": "Senyum lebar dong",
+          "detail": "Senyum sampai giginya kelihatan"
+        }
+      }
+    },
+    {
+      "slug": "selfie-peace",
+      "title": "Peace di pipi",
+      "category": "selfie",
+      "description": "Tanda peace di samping pipi",
+      "framing": "selfie",
+      "keep": [
+        "headTilt",
+        "faceTurn"
+      ],
+      "weights": {},
+      "override": {
+        "headTilt": {
+          "angle": 0,
+          "tolerance": 12,
+          "falloff": 15
+        },
+        "faceTurn": {
+          "angle": 0,
+          "tolerance": 15,
+          "falloff": 15
+        }
+      },
+      "freeHand": {
+        "side": "left",
+        "tolerance": 0.3,
+        "weight": 2
+      },
+      "face": {
+        "smileMin": 0.5,
+        "pitch": 0,
+        "yaw": 0
+      },
+      "cues": {
+        "RAISE_HAND": {
+          "title": "Angkat tanganmu ke pipi",
+          "detail": "Buat tanda peace di samping wajah"
+        },
+        "HAND_CLOSER": {
+          "title": "Dekatkan peace ke pipi",
+          "detail": "Tangan di samping wajah, jari ke atas"
+        }
+      }
+    },
+    {
+      "slug": "selfie-chin",
+      "title": "Tangan di dagu",
+      "category": "selfie",
+      "description": "Kepalan tangan menopang dagu",
+      "framing": "selfie",
+      "keep": [
+        "headTilt",
+        "faceTurn"
+      ],
+      "weights": {},
+      "override": {
+        "headTilt": {
+          "angle": 0,
+          "tolerance": 12,
+          "falloff": 15
+        },
+        "faceTurn": {
+          "angle": 0,
+          "tolerance": 15,
+          "falloff": 15
+        }
+      },
+      "freeHand": {
+        "side": "left",
+        "tolerance": 0.5,
+        "weight": 2
+      },
+      "face": {
+        "smileMin": null,
+        "pitch": 0,
+        "yaw": 0
+      },
+      "cues": {
+        "RAISE_HAND": {
+          "title": "Taruh tangan di bawah dagu",
+          "detail": "Kepalkan pelan, sandarkan dagumu"
+        },
+        "LOWER_HAND": {
+          "title": "Turunkan tangan ke dagu",
+          "detail": "Kepalan tangan tepat di bawah dagu"
+        },
+        "HAND_CLOSER": {
+          "title": "Geser tangan ke bawah dagu",
+          "detail": "Kepalan tangan tepat di bawah dagu"
+        }
+      }
+    },
+    {
+      "slug": "selfie-tilt",
+      "title": "Kepala miring",
+      "category": "selfie",
+      "description": "Miringkan kepala ke arah bahu",
+      "framing": "selfie",
+      "keep": [
+        "headTilt",
+        "faceTurn"
+      ],
+      "weights": {
+        "headTilt": 2
+      },
+      "override": {
+        "headTilt": {
+          "angle": 25,
+          "tolerance": 8,
+          "falloff": 15
+        },
+        "faceTurn": {
+          "angle": 0,
+          "tolerance": 20,
+          "falloff": 15
+        }
+      },
+      "face": {
+        "smileMin": 0.5,
+        "pitch": 0,
+        "yaw": 0
+      },
+      "cues": {
+        "TILT_HEAD": {
+          "title": "Miringkan kepalamu sedikit",
+          "detail": "Condongkan kepala ke arah bahu"
+        },
+        "LEVEL_HEAD": {
+          "title": "Jangan terlalu miring",
+          "detail": "Cukup sedikit ke arah bahu"
+        }
+      }
+    },
+    {
+      "slug": "selfie-three-quarter",
+      "title": "Sudut 3/4",
+      "category": "selfie",
+      "description": "Wajah menyamping, mata ke kamera",
+      "framing": "selfie",
+      "keep": [
+        "faceTurn"
+      ],
+      "weights": {
+        "faceTurn": 2
+      },
+      "override": {
+        "faceTurn": {
+          "angle": 30,
+          "tolerance": 10,
+          "falloff": 15
+        }
+      },
+      "face": {
+        "smileMin": null,
+        "pitch": 0,
+        "yaw": 0
+      },
+      "cues": {
+        "TURN_HEAD": {
+          "title": "Tengokkan wajah sedikit",
+          "detail": "Ke samping, mata tetap ke kamera"
+        },
+        "FACE_CAMERA": {
+          "title": "Jangan terlalu menyamping",
+          "detail": "Cukup sepertiga ke samping"
+        }
+      }
+    },
+    {
+      "slug": "selfie-wave",
+      "title": "Lambaian hai",
+      "category": "selfie",
+      "description": "Telapak tangan terbuka di samping kepala",
+      "framing": "selfie",
+      "keep": [
+        "headTilt",
+        "faceTurn"
+      ],
+      "weights": {},
+      "override": {
+        "headTilt": {
+          "angle": 0,
+          "tolerance": 12,
+          "falloff": 15
+        },
+        "faceTurn": {
+          "angle": 0,
+          "tolerance": 15,
+          "falloff": 15
+        }
+      },
+      "freeHand": {
+        "side": "left",
+        "tolerance": 0.3,
+        "weight": 2
+      },
+      "face": {
+        "smileMin": 0.6,
+        "pitch": 0,
+        "yaw": 0
+      },
+      "cues": {
+        "RAISE_HAND": {
+          "title": "Angkat tangan, lambaikan",
+          "detail": "Telapak tangan menghadap kamera"
+        },
+        "HAND_WIDER": {
+          "title": "Jauhkan tangan dari wajah",
+          "detail": "Beri jarak antara tangan dan kepala"
+        }
+      }
+    },
     {
       "slug": "peace-sign",
       "title": "Peace sign",
+      "category": "body",
+      "description": "Tanda peace, badan tegak",
+      "framing": "body",
       "swapSides": true,
-      "keep": ["rightElbow", "rightShoulder", "leftElbow", "leftHip", "rightHip", "leftKnee", "rightKnee", "torsoLean"],
-      "weights": { "rightElbow": 2, "rightShoulder": 2 },
-      "override": { "leftElbow": { "angle": 70, "tolerance": 35 } },
-      "hands": ["right"],
-      "face": { "smileMin": 0.6, "pitch": 0, "yaw": 0 },
+      "keep": [
+        "rightElbow",
+        "rightShoulder",
+        "leftElbow",
+        "leftHip",
+        "rightHip",
+        "leftKnee",
+        "rightKnee",
+        "torsoLean"
+      ],
+      "weights": {
+        "rightElbow": 2,
+        "rightShoulder": 2
+      },
+      "override": {
+        "leftElbow": {
+          "angle": 70,
+          "tolerance": 35
+        }
+      },
+      "hands": [
+        "right"
+      ],
+      "face": {
+        "smileMin": 0.6,
+        "pitch": 0,
+        "yaw": 0
+      },
       "cues": {
-        "RAISE_RIGHT_HAND": { "title": "Angkat tangan kananmu", "detail": "Bawa ke dekat pipi, lalu buat tanda peace" },
-        "MATCHED": { "title": "Mantap, tahan ya!", "detail": "Pozea memotret otomatis" }
+        "RAISE_RIGHT_HAND": {
+          "title": "Angkat tangan kananmu",
+          "detail": "Bawa ke dekat pipi, lalu buat tanda peace"
+        },
+        "MATCHED": {
+          "title": "Mantap, tahan ya!",
+          "detail": "Pozea memotret otomatis"
+        }
       }
     },
     {
       "slug": "leaning",
       "title": "Bersandar",
+      "category": "body",
+      "description": "Sandarkan badan ke dinding",
+      "framing": "body",
       "swapSides": false,
-      "keep": ["leftHip", "rightHip", "leftKnee", "rightKnee", "torsoLean"],
-      "weights": { "torsoLean": 2 },
-      "override": { "torsoLean": { "angle": 20, "tolerance": 12 } },
+      "keep": [
+        "leftHip",
+        "rightHip",
+        "leftKnee",
+        "rightKnee",
+        "torsoLean"
+      ],
+      "weights": {
+        "torsoLean": 2
+      },
+      "override": {
+        "torsoLean": {
+          "angle": 20,
+          "tolerance": 12
+        }
+      },
       "hands": [],
       "face": null,
       "cues": {
-        "FOLLOW_SILHOUETTE": { "title": "Sandarkan badanmu", "detail": "Miringkan badan ke belakang, kaki lurus ke depan" }
+        "FOLLOW_SILHOUETTE": {
+          "title": "Sandarkan badanmu",
+          "detail": "Miringkan badan ke belakang, kaki lurus ke depan"
+        }
       }
     },
     {
       "slug": "walking",
       "title": "Berjalan",
+      "category": "body",
+      "description": "Langkah santai ke depan",
+      "framing": "body",
       "swapSides": false,
-      "keep": ["leftHip", "rightHip", "leftKnee", "rightKnee", "legSpread", "torsoLean"],
-      "weights": { "legSpread": 2 },
+      "keep": [
+        "leftHip",
+        "rightHip",
+        "leftKnee",
+        "rightKnee",
+        "legSpread",
+        "torsoLean"
+      ],
+      "weights": {
+        "legSpread": 2
+      },
       "override": {},
       "hands": [],
       "face": null,
       "cues": {
-        "FOLLOW_SILHOUETTE": { "title": "Langkahkan satu kaki", "detail": "Seperti sedang berjalan pelan" }
+        "FOLLOW_SILHOUETTE": {
+          "title": "Langkahkan satu kaki",
+          "detail": "Seperti sedang berjalan pelan"
+        }
       }
     },
     {
       "slug": "look-back",
       "title": "Menoleh ke belakang",
+      "category": "body",
+      "description": "Membelakangi kamera, lalu menoleh",
+      "framing": "body",
       "swapSides": false,
-      "keep": ["leftElbow", "rightElbow", "leftHip", "rightHip", "leftKnee", "rightKnee", "torsoLean"],
-      "weights": { "leftElbow": 2 },
-      "override": { "leftElbow": { "angle": 95, "tolerance": 30 } },
+      "keep": [
+        "leftElbow",
+        "rightElbow",
+        "leftHip",
+        "rightHip",
+        "leftKnee",
+        "rightKnee",
+        "torsoLean"
+      ],
+      "weights": {
+        "leftElbow": 2
+      },
+      "override": {
+        "leftElbow": {
+          "angle": 95,
+          "tolerance": 30
+        }
+      },
       "hands": [],
       "face": null,
-      "match": { "minVisible": 18 },
+      "match": {
+        "minVisible": 18
+      },
       "cues": {
-        "BEND_ELBOW_LEFT": { "title": "Taruh tangan kiri di pinggang", "detail": "Badan membelakangi kamera, lalu menoleh" }
+        "BEND_ELBOW_LEFT": {
+          "title": "Taruh tangan kiri di pinggang",
+          "detail": "Badan membelakangi kamera, lalu menoleh"
+        }
       }
     },
     {
       "slug": "crouch",
       "title": "Jongkok",
+      "category": "body",
+      "description": "Jongkok, kedua lutut ditekuk",
+      "framing": "body",
       "swapSides": false,
-      "keep": ["leftHip", "rightHip", "leftKnee", "rightKnee"],
-      "weights": { "leftKnee": 2, "rightKnee": 2 },
+      "keep": [
+        "leftHip",
+        "rightHip",
+        "leftKnee",
+        "rightKnee"
+      ],
+      "weights": {
+        "leftKnee": 2,
+        "rightKnee": 2
+      },
       "override": {
-        "leftKnee": { "angle": 55, "tolerance": 25 },
-        "rightKnee": { "angle": 55, "tolerance": 25 },
-        "leftHip": { "angle": 55, "tolerance": 25 },
-        "rightHip": { "angle": 55, "tolerance": 25 }
+        "leftKnee": {
+          "angle": 55,
+          "tolerance": 25
+        },
+        "rightKnee": {
+          "angle": 55,
+          "tolerance": 25
+        },
+        "leftHip": {
+          "angle": 55,
+          "tolerance": 25
+        },
+        "rightHip": {
+          "angle": 55,
+          "tolerance": 25
+        }
       },
       "hands": [],
-      "face": { "smileMin": 0.6, "pitch": 0, "yaw": 0 },
+      "face": {
+        "smileMin": 0.6,
+        "pitch": 0,
+        "yaw": 0
+      },
       "cues": {
-        "BEND_KNEES": { "title": "Jongkok lebih rendah", "detail": "Tekuk kedua lututmu" }
+        "BEND_KNEES": {
+          "title": "Jongkok lebih rendah",
+          "detail": "Tekuk kedua lututmu"
+        }
       }
     }
   ]
