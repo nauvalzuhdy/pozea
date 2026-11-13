@@ -47,7 +47,8 @@
           "android": {
             "buildArchs": [
               "arm64-v8a"
-            ]
+            ],
+            "extraProguardRules": "# Room builds databases by reflection on the generated _Impl class (used by WorkManager).\n-keep class * extends androidx.room.RoomDatabase { <init>(); }\n-keep class androidx.work.impl.WorkDatabase_Impl { *; }\n-keep class androidx.work.** { *; }"
           }
         }
       ],
