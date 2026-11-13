@@ -6,10 +6,7 @@ export default function HomeScreen() {
       <Title>Fotografer pribadimu, selalu ada di sakumu.</Title>
       <Body>Pilih jenis foto, tempat, dan ukuran. Pozea memandumu sampai posenya pas.</Body>
       <PrimaryButton label="Mulai foto" href="/setup" />
-      <PrimaryButton
-        label="Kamera pose"
-        href={{ pathname: '/camera/[poseId]', params: { poseId: 'peace-sign' } }}
-      />
+      <PrimaryButton label="Pilih pose" href="/poses" />
       <PrimaryButton label="Pengaturan" href="/settings" />
     </Screen>
   );
