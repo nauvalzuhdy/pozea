@@ -2,9 +2,10 @@
 // Sides are the user's own (anatomical) left and right: the detectors see an unmirrored image from
 // both cameras, so "tangan kananmu" is right whether the user faces the front or the back camera.
 
-import { isVisible, normalizePose } from './geometry.ts';
+import { faceFrame, isVisible, normalizePose, type Point } from './geometry.ts';
 import { Landmark, LANDMARK_COUNT } from './landmarks.ts';
-import type { JointId, MatchSettings, PoseTemplate } from './template.ts';
+import { HAND_FALLOFF } from './score.ts';
+import { freeHandOffsets, type JointId, type MatchSettings, type PoseTemplate } from './template.ts';
 
 export const CUE_CODES = [
   'FULL_BODY',
@@ -27,6 +28,14 @@ export const CUE_CODES = [
   'TURN_LEFT',
   'TURN_RIGHT',
   'FOLLOW_SILHOUETTE',
+  // Selfie framing: whichever hand is free, and the head.
+  'RAISE_HAND',
+  'LOWER_HAND',
+  'HAND_CLOSER',
+  'HAND_WIDER',
+  'TILT_HEAD',
+  'LEVEL_HEAD',
+  'TURN_HEAD',
   'MATCHED',
 ] as const;
 
@@ -49,6 +58,7 @@ export interface FaceReading {
 export interface Observation {
   /** 33 landmarks in isotropic pixel units of the upright frame. */
   landmarks: readonly number[];
+  frameWidth: number;
   frameHeight: number;
   /** Null when no face was found recently. */
   face: FaceReading | null;
@@ -64,6 +74,11 @@ const BODY_WEIGHT = 2;
 const DISTANCE_WEIGHT = 5;
 const HAND_WEIGHT = 1.5;
 const FACE_WEIGHT = 1;
+const HEAD_WEIGHT = 2;
+/** Selfie free hand; a hand just past its tolerance ranks below a missing smile. */
+const FREE_HAND_WEIGHT = 1;
+/** Face landmarks (nose, eyes, mouth); selfie framing counts these for minVisible. */
+const FACE_LAST = 10;
 
 /** All errors in the current frame, largest first. Empty when nothing is off. */
 export function detectCues(
@@ -71,6 +86,7 @@ export function detectCues(
   template: PoseTemplate,
   match: MatchSettings,
 ): CueCandidate[] {
+  if (template.framing === 'selfie') return detectSelfieCues(obs, template, match);
   const out: CueCandidate[] = [];
   const { landmarks } = obs;
 
@@ -164,28 +180,103 @@ export function detectCues(
   }
   if (worstOther > 0) out.push({ code: 'FOLLOW_SILHOUETTE', priority: worstOther * 0.8 });
 
-  if (template.face && obs.face) {
-    const { smileMin, pitch, yaw } = template.face;
-    if (smileMin !== null && obs.face.smile < smileMin) {
-      out.push({ code: 'SMILE', priority: FACE_WEIGHT * (1 + (smileMin - obs.face.smile) / 0.2) });
+  faceCues(obs, template, match, true, out);
+  return out.sort((a, b) => b.priority - a.priority);
+}
+
+function faceCues(
+  obs: Observation,
+  template: PoseTemplate,
+  match: MatchSettings,
+  withYaw: boolean,
+  out: CueCandidate[],
+): void {
+  if (!template.face) return;
+  const { smileMin, pitch, yaw } = template.face;
+  if (!obs.face) {
+    // Selfies score the smile, so say what is missing even when ML Kit lost the face.
+    if (template.framing === 'selfie' && smileMin !== null) out.push({ code: 'SMILE', priority: FACE_WEIGHT });
+    return;
+  }
+  if (smileMin !== null && obs.face.smile < smileMin) {
+    out.push({ code: 'SMILE', priority: FACE_WEIGHT * (1 + (smileMin - obs.face.smile) / 0.2) });
+  }
+  const dPitch = obs.face.pitch - pitch;
+  if (Math.abs(dPitch) > match.pitchTolerance) {
+    out.push({
+      code: dPitch < 0 ? 'CHIN_UP' : 'CHIN_DOWN',
+      priority: FACE_WEIGHT * (Math.abs(dPitch) / match.pitchTolerance),
+    });
+  }
+  const dYaw = obs.face.yaw - yaw;
+  if (withYaw && Math.abs(dYaw) > match.yawTolerance) {
+    // The yaw sign of TURN_LEFT/RIGHT is not verified on a device yet; no current pose targets a
+    // turned head, so only FACE_CAMERA shows today.
+    const code: CueCode =
+      Math.abs(yaw) < match.yawTolerance ? 'FACE_CAMERA' : dYaw > 0 ? 'TURN_RIGHT' : 'TURN_LEFT';
+    out.push({ code, priority: FACE_WEIGHT * (Math.abs(dYaw) / match.yawTolerance) });
+  }
+}
+
+/**
+ * Selfie framing: the face is the reference, the free hand may be either one, and head tilt and
+ * turn are unsigned, so mirrored versions of a pose count too.
+ */
+function detectSelfieCues(obs: Observation, template: PoseTemplate, match: MatchSettings): CueCandidate[] {
+  const { landmarks } = obs;
+  let visible = 0;
+  for (let i = 0; i <= FACE_LAST; i++) if (isVisible(landmarks, i)) visible++;
+  const face = faceFrame(landmarks);
+  if (visible < match.minVisible || face === null) return [{ code: 'FULL_BODY', priority: 100 }];
+
+  const out: CueCandidate[] = [];
+  const width = face.scale / obs.frameWidth;
+  if (width > match.maxFaceWidth) {
+    out.push({ code: 'STEP_BACK', priority: DISTANCE_WEIGHT * (1 + (width - match.maxFaceWidth) / 0.1) });
+  } else if (width < match.minFaceWidth) {
+    out.push({ code: 'STEP_CLOSER', priority: DISTANCE_WEIGHT * (1 + (match.minFaceWidth - width) / 0.05) });
+  }
+
+  const hand = template.freeHand;
+  if (hand) {
+    const offsets = freeHandOffsets(landmarks);
+    let best: Point | null = null;
+    let bestDistance = Infinity;
+    for (const p of [offsets.left, offsets.right]) {
+      if (!p) continue;
+      const d = Math.hypot(p.x - hand.x, p.y - hand.y);
+      if (d < bestDistance) {
+        best = p;
+        bestDistance = d;
+      }
     }
-    const dPitch = obs.face.pitch - pitch;
-    if (Math.abs(dPitch) > match.pitchTolerance) {
-      out.push({
-        code: dPitch < 0 ? 'CHIN_UP' : 'CHIN_DOWN',
-        priority: FACE_WEIGHT * (Math.abs(dPitch) / match.pitchTolerance),
-      });
-    }
-    const dYaw = obs.face.yaw - yaw;
-    if (Math.abs(dYaw) > match.yawTolerance) {
-      // The yaw sign of TURN_LEFT/RIGHT is not verified on a device yet; no current pose targets a
-      // turned head, so only FACE_CAMERA shows today.
+    if (best === null) {
+      // Neither wrist is in view: the free hand is down, below the frame.
+      out.push({ code: 'RAISE_HAND', priority: FREE_HAND_WEIGHT * hand.weight * 2 });
+    } else if (bestDistance > hand.tolerance) {
+      const dx = best.x - hand.x;
+      const dy = best.y - hand.y;
       const code: CueCode =
-        Math.abs(yaw) < match.yawTolerance ? 'FACE_CAMERA' : dYaw > 0 ? 'TURN_RIGHT' : 'TURN_LEFT';
-      out.push({ code, priority: FACE_WEIGHT * (Math.abs(dYaw) / match.yawTolerance) });
+        Math.abs(dy) >= Math.abs(dx) ? (dy > 0 ? 'RAISE_HAND' : 'LOWER_HAND') : dx > 0 ? 'HAND_CLOSER' : 'HAND_WIDER';
+      const over = bestDistance - hand.tolerance;
+      out.push({ code, priority: FREE_HAND_WEIGHT * hand.weight * (1 + over / HAND_FALLOFF) });
     }
   }
 
+  const head: [JointId, CueCode, CueCode][] = [
+    ['headTilt', 'TILT_HEAD', 'LEVEL_HEAD'],
+    ['faceTurn', 'TURN_HEAD', 'FACE_CAMERA'],
+  ];
+  for (const [id, more, less] of head) {
+    const target = template.joints[id];
+    const angle = obs.angles[id];
+    if (!target || angle === undefined) continue;
+    const diff = angle - target.angle;
+    if (Math.abs(diff) <= target.tolerance) continue;
+    out.push({ code: diff < 0 ? more : less, priority: HEAD_WEIGHT * target.weight * (Math.abs(diff) / target.tolerance) });
+  }
+
+  faceCues(obs, template, match, false, out);
   return out.sort((a, b) => b.priority - a.priority);
 }
 

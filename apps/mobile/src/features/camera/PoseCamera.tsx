@@ -269,7 +269,7 @@ function LivePoseCamera({ initialPose, onClose }: { initialPose?: string; onClos
     matchedFlag.set(step.state.matched ? 1 : 0);
 
     const face = f.face ? { smile: f.face[0] < 0 ? 1 : f.face[0], pitch: f.face[1], yaw: f.face[2] } : null;
-    const candidates = detectCues({ landmarks: pixels, frameHeight: 1000, face, angles }, current.template, current.match);
+    const candidates = detectCues({ landmarks: pixels, frameWidth: f.aspect * 1000, frameHeight: 1000, face, angles }, current.template, current.match);
     const next = nextCue(cueState.current, candidates, step.state.matched, now);
     if (next !== cueState.current) {
       cueState.current = next;

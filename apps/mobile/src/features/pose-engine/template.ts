@@ -1,7 +1,7 @@
 // Pose templates: target joint angles and hand positions, plus the thresholds used to match them.
 // Templates are built from an example photo by templateFromLandmarks (see scripts/pose-templates).
 
-import { angleAt, isVisible, midpoint, normalizePose, pointAt } from './geometry.ts';
+import { angleAt, faceFrame, isVisible, midpoint, normalizePose, pointAt, type Point } from './geometry.ts';
 import { Landmark } from './landmarks.ts';
 
 /** Each joint is the angle at the middle landmark of three. */
@@ -23,8 +23,28 @@ export const JOINTS = {
  */
 export const BODY_MEASURES = ['torsoLean', 'legSpread'] as const;
 
-export type JointId = keyof typeof JOINTS | (typeof BODY_MEASURES)[number];
-export const JOINT_IDS = [...(Object.keys(JOINTS) as (keyof typeof JOINTS)[]), ...BODY_MEASURES] as JointId[];
+/**
+ * Face measures for selfies, in degrees and unsigned, so tilting or turning to either side counts:
+ * - headTilt: how far the eye line slants from horizontal.
+ * - faceTurn: how far the face turns away from the camera, from the nose's offset along the ear line.
+ */
+export const FACE_MEASURES = ['headTilt', 'faceTurn'] as const;
+
+export type JointId =
+  | keyof typeof JOINTS
+  | (typeof BODY_MEASURES)[number]
+  | (typeof FACE_MEASURES)[number];
+export const JOINT_IDS = [
+  ...(Object.keys(JOINTS) as (keyof typeof JOINTS)[]),
+  ...BODY_MEASURES,
+  ...FACE_MEASURES,
+] as JointId[];
+
+/**
+ * - body: the whole body is in view; landmarks are normalized by the torso.
+ * - selfie: face and shoulders only, one hand holding the phone; the face is the reference.
+ */
+export type Framing = 'body' | 'selfie';
 
 export interface JointTarget {
   /** Degrees, 0...180. */
@@ -32,6 +52,8 @@ export interface JointTarget {
   /** Degrees of difference that still count as a full match. */
   tolerance: number;
   weight: number;
+  /** Degrees past the tolerance at which the joint scores 0. Defaults to ANGLE_FALLOFF (score.ts). */
+  falloff?: number;
 }
 
 /** Wrist position relative to the mid-hip, in torso lengths (y points down). */
@@ -40,8 +62,24 @@ export interface HandTarget {
   y: number;
 }
 
+/**
+ * Selfie target for whichever hand is free (the other one holds the phone), in face units: x is the
+ * distance outward from the face toward that hand's own side, y is down from the mid-ear point,
+ * both divided by the ear-to-ear distance.
+ */
+export interface FreeHandTarget {
+  x: number;
+  y: number;
+  /** Distance from the target, in face units, that still counts as a full match. */
+  tolerance: number;
+  weight: number;
+}
+
 export interface FaceTarget {
-  /** Minimum ML Kit smiling probability, or null when the pose does not ask for a smile. */
+  /**
+   * Minimum ML Kit smiling probability, or null when the pose does not ask for a smile. Selfie
+   * poses also score it, so a selfie never matches without the smile it asks for.
+   */
   smileMin: number | null;
   /** Head pitch and yaw in degrees (ML Kit Euler X and Y). */
   pitch: number;
@@ -49,8 +87,11 @@ export interface FaceTarget {
 }
 
 export interface PoseTemplate {
+  framing: Framing;
   joints: Partial<Record<JointId, JointTarget>>;
   hands: { left?: HandTarget; right?: HandTarget };
+  /** Selfie framing only. */
+  freeHand?: FreeHandTarget;
   /** Null when the face is not visible in this pose, such as looking back over the shoulder. */
   face: FaceTarget | null;
 }
@@ -65,11 +106,17 @@ export interface MatchSettings {
   holdMs: number;
   /** Weight of the newest score in the moving average. */
   smoothing: number;
-  /** Fewer visible landmarks than this asks the user to show the whole body. */
+  /**
+   * Fewer visible landmarks than this asks the user to show the whole body. Selfie framing counts
+   * only the 11 face landmarks (0...10).
+   */
   minVisible: number;
-  /** Body height as a share of the frame height. */
+  /** Body height as a share of the frame height (body framing). */
   minBodyHeight: number;
   maxBodyHeight: number;
+  /** Ear-to-ear distance as a share of the frame width (selfie framing). */
+  minFaceWidth: number;
+  maxFaceWidth: number;
   /** Wrist distance from the target, in torso lengths, before a hand cue shows. */
   handTolerance: number;
   /** Degrees. */
@@ -85,6 +132,8 @@ export const DEFAULT_MATCH: MatchSettings = {
   minVisible: 25,
   minBodyHeight: 0.5,
   maxBodyHeight: 0.95,
+  minFaceWidth: 0.15,
+  maxFaceWidth: 0.6,
   handTolerance: 0.35,
   pitchTolerance: 10,
   yawTolerance: 15,
@@ -116,6 +165,41 @@ export function jointAngles(landmarks: readonly number[]): Partial<Record<JointI
       );
     }
   }
+  if (seen(Landmark.leftEye, Landmark.rightEye)) {
+    const l = pointAt(landmarks, Landmark.leftEye);
+    const r = pointAt(landmarks, Landmark.rightEye);
+    out.headTilt = (Math.atan2(Math.abs(l.y - r.y), Math.abs(l.x - r.x)) * 180) / Math.PI;
+  }
+  const face = faceFrame(landmarks);
+  if (face && seen(Landmark.nose)) {
+    const l = pointAt(landmarks, Landmark.leftEar);
+    const r = pointAt(landmarks, Landmark.rightEar);
+    const nose = pointAt(landmarks, Landmark.nose);
+    // Nose offset from the mid-ear point along the ear line, as a share of the ear distance; a
+    // frontal face reads ~0, a three-quarter view ~0.25.
+    const along =
+      ((nose.x - face.center.x) * (l.x - r.x) + (nose.y - face.center.y) * (l.y - r.y)) / (face.scale * face.scale);
+    out.faceTurn = (Math.atan(2 * Math.abs(along)) * 180) / Math.PI;
+  }
+  return out;
+}
+
+/**
+ * Wrist positions in the face units of FreeHandTarget: x outward toward each hand's own side
+ * (the user's left is the image's right, as the detector sees an unmirrored image), y down.
+ */
+export function freeHandOffsets(landmarks: readonly number[]): { left?: Point; right?: Point } {
+  const face = faceFrame(landmarks);
+  const out: { left?: Point; right?: Point } = {};
+  if (!face) return out;
+  if (isVisible(landmarks, Landmark.leftWrist)) {
+    const p = pointAt(landmarks, Landmark.leftWrist);
+    out.left = { x: (p.x - face.center.x) / face.scale, y: (p.y - face.center.y) / face.scale };
+  }
+  if (isVisible(landmarks, Landmark.rightWrist)) {
+    const p = pointAt(landmarks, Landmark.rightWrist);
+    out.right = { x: (face.center.x - p.x) / face.scale, y: (p.y - face.center.y) / face.scale };
+  }
   return out;
 }
 
@@ -123,24 +207,36 @@ export interface TemplateOptions {
   tolerance: number;
   weights?: Partial<Record<JointId, number>>;
   face: FaceTarget | null;
+  framing?: Framing;
+  /** Selfie framing: the hand that is free in the example photo, and how its position is scored. */
+  freeHand?: { side: 'left' | 'right'; tolerance: number; weight: number };
 }
 
 /** Builds a template from landmarks detected on an example photo (isotropic pixel units). */
 export function templateFromLandmarks(
   landmarks: readonly number[],
-  { tolerance, weights = {}, face }: TemplateOptions,
+  { tolerance, weights = {}, face, framing = 'body', freeHand }: TemplateOptions,
 ): PoseTemplate {
   const angles = jointAngles(landmarks);
   const joints: PoseTemplate['joints'] = {};
-  for (const id of JOINT_IDS) {
+  // Selfies keep only the face measures: arms leave the frame and one of them holds the phone.
+  const ids = framing === 'selfie' ? FACE_MEASURES : JOINT_IDS.filter((id) => !FACE_MEASURES.includes(id as never));
+  for (const id of ids) {
     const angle = angles[id];
     if (angle === undefined) continue;
     joints[id] = { angle: Math.round(angle), tolerance, weight: weights[id] ?? 1 };
   }
   const hands: PoseTemplate['hands'] = {};
+  const round = (v: number) => Math.round(v * 100) / 100;
+  if (framing === 'selfie') {
+    const offset = freeHand ? freeHandOffsets(landmarks)[freeHand.side] : undefined;
+    const target = offset && freeHand
+      ? { x: round(offset.x), y: round(offset.y), tolerance: freeHand.tolerance, weight: freeHand.weight }
+      : undefined;
+    return { framing, joints, hands, ...(target ? { freeHand: target } : {}), face };
+  }
   const pose = normalizePose(landmarks);
   if (pose) {
-    const round = (v: number) => Math.round(v * 100) / 100;
     if (isVisible(landmarks, Landmark.leftWrist)) {
       const p = pose.points[Landmark.leftWrist];
       hands.left = { x: round(p.x), y: round(p.y) };
@@ -150,5 +246,5 @@ export function templateFromLandmarks(
       hands.right = { x: round(p.x), y: round(p.y) };
     }
   }
-  return { joints, hands, face };
+  return { framing, joints, hands, face };
 }

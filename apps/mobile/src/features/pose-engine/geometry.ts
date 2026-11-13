@@ -68,6 +68,26 @@ export function normalizePose(landmarks: readonly number[]): NormalizedPose | nu
   return { points, visibility, torso };
 }
 
+export interface FaceFrame {
+  /** Midpoint of the ears. */
+  center: Point;
+  /** Ear-to-ear distance in the input units. */
+  scale: number;
+}
+
+/**
+ * The face as a reference frame for selfies, where hips and often shoulders are out of view.
+ * Null when an ear is not seen.
+ */
+export function faceFrame(landmarks: readonly number[]): FaceFrame | null {
+  if (!isVisible(landmarks, Landmark.leftEar) || !isVisible(landmarks, Landmark.rightEar)) return null;
+  const left = pointAt(landmarks, Landmark.leftEar);
+  const right = pointAt(landmarks, Landmark.rightEar);
+  const scale = distance(left, right);
+  if (scale < 1e-6) return null;
+  return { center: midpoint(left, right), scale };
+}
+
 /** Converts landmarks normalized to a W x H image (0...1) into isotropic pixel units. */
 export function toPixels(landmarks: readonly number[], width: number, height: number): number[] {
   const out = landmarks.slice();

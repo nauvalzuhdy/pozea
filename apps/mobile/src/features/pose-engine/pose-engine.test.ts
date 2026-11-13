@@ -48,7 +48,7 @@ function moved(lm: number[], index: number, x: number, y: number): number[] {
 }
 
 function observe(lm: number[], face: Observation['face'] = null): Observation {
-  return { landmarks: lm, frameHeight: 1280, face, angles: jointAngles(lm) };
+  return { landmarks: lm, frameWidth: 720, frameHeight: 1280, face, angles: jointAngles(lm) };
 }
 
 test('normalizePose centers on the mid-hip and scales by the torso', () => {
@@ -86,6 +86,7 @@ test('joint similarity is 1 within tolerance and falls linearly to 0', () => {
 
 test('score blends the weighted mean with the worst joint, and an unseen joint counts as 0', () => {
   const template: PoseTemplate = {
+    framing: 'body',
     joints: {
       leftElbow: { angle: 90, tolerance: 10, weight: 3 },
       rightElbow: { angle: 90, tolerance: 10, weight: 1 },
@@ -174,6 +175,27 @@ test('auto capture fires once after the hold and re-arms only below the exit thr
   assert.equal(r[4].holdProgress, 0);
 });
 
+test('a spoken countdown delays the photo by 3 s, and a broken pose cancels it', () => {
+  const steps: [number, number][] = [
+    [100, 0.9], // matched: hold starts
+    [700, 0.9], // hold done, countdown running
+    [3699, 0.9],
+    [3700, 0.9], // hold + countdown: capture
+    [4000, 0.7], // match ends, re-armed
+    [4100, 0.9], // new match
+    [5000, 0.7], // broken during the countdown: no photo
+    [5100, 0.9],
+    [8800, 0.9], // capture 3.7 s after the last match started
+  ];
+  let state: MatcherState = INITIAL_MATCHER;
+  const capture = steps.map(([t, score]) => {
+    const step = stepMatcher(state, score, t, RAW, 3000);
+    state = step.state;
+    return step.capture;
+  });
+  assert.deepEqual(capture, [false, false, false, true, false, false, false, false, true]);
+});
+
 test('the score is smoothed with 70% of the old value and 30% of the new one', () => {
   const r = run(
     [
@@ -198,7 +220,7 @@ test('asks to show the whole body when too few landmarks are visible', () => {
 });
 
 test('asks to raise the right hand when the target is above the shoulder', () => {
-  const template: PoseTemplate = { joints: {}, hands: { right: { x: -0.5, y: -1.8 } }, face: null };
+  const template: PoseTemplate = { framing: 'body', joints: {}, hands: { right: { x: -0.5, y: -1.8 } }, face: null };
   const cues = detectCues(observe(standing()), template, DEFAULT_MATCH);
   assert.deepEqual(
     cues.map((c) => c.code),
@@ -207,7 +229,7 @@ test('asks to raise the right hand when the target is above the shoulder', () =>
 });
 
 test('asks to lower the left hand when it is above the target', () => {
-  const template: PoseTemplate = { joints: {}, hands: { left: { x: 0.3, y: -1 } }, face: null };
+  const template: PoseTemplate = { framing: 'body', joints: {}, hands: { left: { x: 0.3, y: -1 } }, face: null };
   // Mid-hip y is 600 and the torso 300, so y = -1.6 torso lengths is pixel y 600 - 480 = 120,
   // above the head (nose at 200). Body height must ignore the hand, so no STEP_BACK either.
   const lm = moved(standing(), Landmark.leftWrist, 450, 120);
@@ -220,6 +242,7 @@ test('asks to lower the left hand when it is above the target', () => {
 
 test('asks for a smile and orders cues by size of the error', () => {
   const template: PoseTemplate = {
+    framing: 'body',
     joints: {},
     hands: { right: { x: -0.4, y: -0.05 } },
     face: { smileMin: 0.6, pitch: 0, yaw: 0 },
@@ -236,7 +259,7 @@ test('asks for a smile and orders cues by size of the error', () => {
 
 test('asks to step back when the body fills more than 95% of the frame height', () => {
   const lm = standing().map((v, i) => (i % 3 === 1 ? (v - 200) * 1.3 + 10 : v));
-  const template: PoseTemplate = { joints: {}, hands: {}, face: null };
+  const template: PoseTemplate = { framing: 'body', joints: {}, hands: {}, face: null };
   assert.equal(detectCues(observe(lm), template, DEFAULT_MATCH)[0].code, 'STEP_BACK');
 });
 

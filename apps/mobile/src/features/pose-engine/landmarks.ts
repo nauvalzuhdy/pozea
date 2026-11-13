@@ -5,6 +5,8 @@ export const LANDMARK_COUNT = 33;
 
 export const Landmark = {
   nose: 0,
+  leftEye: 2,
+  rightEye: 5,
   leftEar: 7,
   rightEar: 8,
   leftShoulder: 11,

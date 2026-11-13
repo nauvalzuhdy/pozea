@@ -22,17 +22,22 @@ export interface MatcherStep {
   state: MatcherState;
   /** True on the frame the pose became matched. */
   justMatched: boolean;
-  /** 0...1 progress of the hold before auto capture; 0 when not counting down. */
+  /** 0...1 progress of the hold (and countdown) before auto capture; 0 when not counting down. */
   holdProgress: number;
   /** True on exactly one frame per match: take the photo now. */
   capture: boolean;
 }
 
+/**
+ * `countdownMs` adds time after the hold, for the spoken "tiga, dua, satu" before the photo; the
+ * pose must stay matched through it.
+ */
 export function stepMatcher(
   prev: MatcherState,
   score: number,
   now: number,
   settings: Pick<MatchSettings, 'enter' | 'exit' | 'holdMs' | 'smoothing'>,
+  countdownMs = 0,
 ): MatcherStep {
   const smoothed = prev.smoothed * (1 - settings.smoothing) + score * settings.smoothing;
   let { matched, matchedSince, armed } = prev;
@@ -50,7 +55,7 @@ export function stepMatcher(
   let holdProgress = 0;
   let capture = false;
   if (matched && armed) {
-    holdProgress = Math.min(1, (now - matchedSince) / settings.holdMs);
+    holdProgress = Math.min(1, (now - matchedSince) / (settings.holdMs + countdownMs));
     if (holdProgress >= 1) {
       capture = true;
       armed = false;

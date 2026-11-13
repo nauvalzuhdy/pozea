@@ -29,6 +29,13 @@ export const DEFAULT_CUES: Record<CueCode, CueText> = {
   TURN_LEFT: { title: 'Tengok ke kiri sedikit', detail: 'Ikuti arah kepala di siluet' },
   TURN_RIGHT: { title: 'Tengok ke kanan sedikit', detail: 'Ikuti arah kepala di siluet' },
   FOLLOW_SILHOUETTE: { title: 'Ikuti bentuk siluet', detail: 'Samakan posisi badanmu dengan garis putih' },
+  RAISE_HAND: { title: 'Angkat satu tanganmu', detail: 'Ikuti posisi tangan di siluet' },
+  LOWER_HAND: { title: 'Turunkan tanganmu sedikit', detail: 'Ikuti posisi tangan di siluet' },
+  HAND_CLOSER: { title: 'Dekatkan tangan ke wajah', detail: 'Ikuti posisi tangan di siluet' },
+  HAND_WIDER: { title: 'Jauhkan tangan dari wajah', detail: 'Ikuti posisi tangan di siluet' },
+  TILT_HEAD: { title: 'Miringkan kepalamu sedikit', detail: 'Condongkan kepala ke arah bahu' },
+  LEVEL_HEAD: { title: 'Tegakkan kepalamu', detail: 'Kepalamu terlalu miring' },
+  TURN_HEAD: { title: 'Tengokkan wajah sedikit', detail: 'Ke samping, mata tetap ke kamera' },
   MATCHED: { title: 'Mantap, tahan ya!', detail: 'Pozea memotret otomatis' },
 };
 
