@@ -1,13 +1,13 @@
 /*
  * Pozea landing page: waitlist form
  *
- * Saat ini form hanya memvalidasi email lalu menampilkan pesan sukses.
- * Untuk benar-benar menyimpan email dan mengirim notifikasi ke pendaftar,
- * isi WAITLIST_ENDPOINT dengan URL dari layanan form/email yang kamu pakai
- * (mis. Formspree, Brevo, MailerLite, atau API milikmu sendiri).
- * Data dikirim sebagai JSON: { "email": "..." }
+ * Email dikirim ke form langganan Brevo (Contacts → Forms).
+ * Brevo menyimpan email di list waitlist dan mengirim email konfirmasi ke pendaftar.
+ * WAITLIST_ENDPOINT adalah atribut action dari kode embed form Brevo.
+ * Kosongkan untuk mode uji tanpa menyimpan email.
  */
-const WAITLIST_ENDPOINT = ''; // contoh: 'https://formspree.io/f/xxxxxxx'
+const WAITLIST_ENDPOINT =
+  'https://c39111ca.sibforms.com/serve/MUIFADHBGLuBcLYo_37CSqVvfEK9JkGQBHDso79EI7lX4cq_bPTQI52mpPkdhatn7T_ANymMN_AnGOCMHIWLIeW8oLeZYxcuH6cYkv_Eh08Sidw7uLEet7aY-v7JDjH2nfJhQatA084TX-DNYxGERXhPDOI6k0NA5E7UVhpTk5pVucuKsWJWIPIq49BEfrLsfCtct1xGOgZybmef4w==';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -18,12 +18,15 @@ function showJoined() {
 
 async function submitEmail(email) {
   if (!WAITLIST_ENDPOINT) return true; // belum disambungkan: anggap sukses
-  const res = await fetch(WAITLIST_ENDPOINT, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-    body: JSON.stringify({ email }),
-  });
-  return res.ok;
+  // Kirim seperti form embed Brevo: FormData ke action + ?isAjax=1, balasan JSON { success }.
+  const data = new FormData();
+  data.append('EMAIL', email);
+  data.append('email_address_check', ''); // honeypot anti-spam Brevo, harus kosong
+  data.append('locale', 'en');
+  const res = await fetch(`${WAITLIST_ENDPOINT}?isAjax=1`, { method: 'POST', body: data });
+  if (!res.ok) return false;
+  const json = await res.json().catch(() => ({}));
+  return json.success === true;
 }
 
 document.querySelectorAll('form.js-waitlist').forEach((form) => {
