@@ -56,6 +56,12 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "owner": "zuhdys-team",
+    "extra": {
+      "eas": {
+        "projectId": "01b54e55-d87f-4c7c-980c-1be0ad258c2f"
+      }
     }
   }
 }

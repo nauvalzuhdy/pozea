@@ -1,0 +1,17 @@
+{
+  "cli": {
+    "version": ">= 27.0.0",
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "preview": {
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "CMAKE_BUILD_PARALLEL_LEVEL": "2"
+      }
+    }
+  }
+}
