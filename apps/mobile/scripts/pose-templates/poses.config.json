@@ -1,0 +1,78 @@
+{
+  "$comment": "Input for build-templates.ts. Landmarks come from detect_landmarks.py on the example photo. swapSides fixes photos where the detector reads a front-facing figure as back-facing (the mannequins have no face). keep lists the joints to score; override replaces detected angles that are unreliable.",
+  "defaults": { "tolerance": 20 },
+  "poses": [
+    {
+      "slug": "peace-sign",
+      "title": "Peace sign",
+      "swapSides": true,
+      "keep": ["rightElbow", "rightShoulder", "leftElbow", "leftHip", "rightHip", "leftKnee", "rightKnee", "torsoLean"],
+      "weights": { "rightElbow": 2, "rightShoulder": 2 },
+      "override": { "leftElbow": { "angle": 70, "tolerance": 35 } },
+      "hands": ["right"],
+      "face": { "smileMin": 0.6, "pitch": 0, "yaw": 0 },
+      "cues": {
+        "RAISE_RIGHT_HAND": { "title": "Angkat tangan kananmu", "detail": "Bawa ke dekat pipi, lalu buat tanda peace" },
+        "MATCHED": { "title": "Mantap, tahan ya!", "detail": "Pozea memotret otomatis" }
+      }
+    },
+    {
+      "slug": "leaning",
+      "title": "Bersandar",
+      "swapSides": false,
+      "keep": ["leftHip", "rightHip", "leftKnee", "rightKnee", "torsoLean"],
+      "weights": { "torsoLean": 2 },
+      "override": { "torsoLean": { "angle": 20, "tolerance": 12 } },
+      "hands": [],
+      "face": null,
+      "cues": {
+        "FOLLOW_SILHOUETTE": { "title": "Sandarkan badanmu", "detail": "Miringkan badan ke belakang, kaki lurus ke depan" }
+      }
+    },
+    {
+      "slug": "walking",
+      "title": "Berjalan",
+      "swapSides": false,
+      "keep": ["leftHip", "rightHip", "leftKnee", "rightKnee", "legSpread", "torsoLean"],
+      "weights": { "legSpread": 2 },
+      "override": {},
+      "hands": [],
+      "face": null,
+      "cues": {
+        "FOLLOW_SILHOUETTE": { "title": "Langkahkan satu kaki", "detail": "Seperti sedang berjalan pelan" }
+      }
+    },
+    {
+      "slug": "look-back",
+      "title": "Menoleh ke belakang",
+      "swapSides": false,
+      "keep": ["leftElbow", "rightElbow", "leftHip", "rightHip", "leftKnee", "rightKnee", "torsoLean"],
+      "weights": { "leftElbow": 2 },
+      "override": { "leftElbow": { "angle": 95, "tolerance": 30 } },
+      "hands": [],
+      "face": null,
+      "match": { "minVisible": 18 },
+      "cues": {
+        "BEND_ELBOW_LEFT": { "title": "Taruh tangan kiri di pinggang", "detail": "Badan membelakangi kamera, lalu menoleh" }
+      }
+    },
+    {
+      "slug": "crouch",
+      "title": "Jongkok",
+      "swapSides": false,
+      "keep": ["leftHip", "rightHip", "leftKnee", "rightKnee"],
+      "weights": { "leftKnee": 2, "rightKnee": 2 },
+      "override": {
+        "leftKnee": { "angle": 55, "tolerance": 25 },
+        "rightKnee": { "angle": 55, "tolerance": 25 },
+        "leftHip": { "angle": 55, "tolerance": 25 },
+        "rightHip": { "angle": 55, "tolerance": 25 }
+      },
+      "hands": [],
+      "face": { "smileMin": 0.6, "pitch": 0, "yaw": 0 },
+      "cues": {
+        "BEND_KNEES": { "title": "Jongkok lebih rendah", "detail": "Tekuk kedua lututmu" }
+      }
+    }
+  ]
+}

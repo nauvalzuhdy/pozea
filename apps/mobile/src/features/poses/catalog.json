@@ -1,0 +1,312 @@
+{
+  "schemaVersion": 1,
+  "poses": [
+    {
+      "slug": "peace-sign",
+      "title": "Peace sign",
+      "template": {
+        "joints": {
+          "rightElbow": {
+            "angle": 51,
+            "tolerance": 20,
+            "weight": 2
+          },
+          "rightShoulder": {
+            "angle": 71,
+            "tolerance": 20,
+            "weight": 2
+          },
+          "leftElbow": {
+            "angle": 70,
+            "tolerance": 35,
+            "weight": 1
+          },
+          "leftHip": {
+            "angle": 167,
+            "tolerance": 20,
+            "weight": 1
+          },
+          "rightHip": {
+            "angle": 177,
+            "tolerance": 20,
+            "weight": 1
+          },
+          "leftKnee": {
+            "angle": 179,
+            "tolerance": 20,
+            "weight": 1
+          },
+          "rightKnee": {
+            "angle": 169,
+            "tolerance": 20,
+            "weight": 1
+          },
+          "torsoLean": {
+            "angle": 6,
+            "tolerance": 20,
+            "weight": 1
+          }
+        },
+        "hands": {
+          "right": {
+            "x": -0.39,
+            "y": -1.44
+          }
+        },
+        "face": {
+          "smileMin": 0.6,
+          "pitch": 0,
+          "yaw": 0
+        }
+      },
+      "cues": {
+        "RAISE_RIGHT_HAND": {
+          "title": "Angkat tangan kananmu",
+          "detail": "Bawa ke dekat pipi, lalu buat tanda peace"
+        },
+        "MATCHED": {
+          "title": "Mantap, tahan ya!",
+          "detail": "Pozea memotret otomatis"
+        }
+      },
+      "match": {
+        "enter": 0.85,
+        "exit": 0.75,
+        "holdMs": 600,
+        "smoothing": 0.3,
+        "minVisible": 25,
+        "minBodyHeight": 0.5,
+        "maxBodyHeight": 0.95,
+        "handTolerance": 0.35,
+        "pitchTolerance": 10,
+        "yawTolerance": 15
+      }
+    },
+    {
+      "slug": "leaning",
+      "title": "Bersandar",
+      "template": {
+        "joints": {
+          "leftHip": {
+            "angle": 165,
+            "tolerance": 20,
+            "weight": 1
+          },
+          "rightHip": {
+            "angle": 156,
+            "tolerance": 20,
+            "weight": 1
+          },
+          "leftKnee": {
+            "angle": 171,
+            "tolerance": 20,
+            "weight": 1
+          },
+          "rightKnee": {
+            "angle": 151,
+            "tolerance": 20,
+            "weight": 1
+          },
+          "torsoLean": {
+            "angle": 20,
+            "tolerance": 12,
+            "weight": 2
+          }
+        },
+        "hands": {},
+        "face": null
+      },
+      "cues": {
+        "FOLLOW_SILHOUETTE": {
+          "title": "Sandarkan badanmu",
+          "detail": "Miringkan badan ke belakang, kaki lurus ke depan"
+        }
+      },
+      "match": {
+        "enter": 0.85,
+        "exit": 0.75,
+        "holdMs": 600,
+        "smoothing": 0.3,
+        "minVisible": 25,
+        "minBodyHeight": 0.5,
+        "maxBodyHeight": 0.95,
+        "handTolerance": 0.35,
+        "pitchTolerance": 10,
+        "yawTolerance": 15
+      }
+    },
+    {
+      "slug": "walking",
+      "title": "Berjalan",
+      "template": {
+        "joints": {
+          "leftHip": {
+            "angle": 152,
+            "tolerance": 20,
+            "weight": 1
+          },
+          "rightHip": {
+            "angle": 169,
+            "tolerance": 20,
+            "weight": 1
+          },
+          "leftKnee": {
+            "angle": 170,
+            "tolerance": 20,
+            "weight": 1
+          },
+          "rightKnee": {
+            "angle": 172,
+            "tolerance": 20,
+            "weight": 1
+          },
+          "legSpread": {
+            "angle": 51,
+            "tolerance": 20,
+            "weight": 2
+          },
+          "torsoLean": {
+            "angle": 4,
+            "tolerance": 20,
+            "weight": 1
+          }
+        },
+        "hands": {},
+        "face": null
+      },
+      "cues": {
+        "FOLLOW_SILHOUETTE": {
+          "title": "Langkahkan satu kaki",
+          "detail": "Seperti sedang berjalan pelan"
+        }
+      },
+      "match": {
+        "enter": 0.85,
+        "exit": 0.75,
+        "holdMs": 600,
+        "smoothing": 0.3,
+        "minVisible": 25,
+        "minBodyHeight": 0.5,
+        "maxBodyHeight": 0.95,
+        "handTolerance": 0.35,
+        "pitchTolerance": 10,
+        "yawTolerance": 15
+      }
+    },
+    {
+      "slug": "look-back",
+      "title": "Menoleh ke belakang",
+      "template": {
+        "joints": {
+          "leftElbow": {
+            "angle": 95,
+            "tolerance": 30,
+            "weight": 2
+          },
+          "rightElbow": {
+            "angle": 173,
+            "tolerance": 20,
+            "weight": 1
+          },
+          "leftHip": {
+            "angle": 177,
+            "tolerance": 20,
+            "weight": 1
+          },
+          "rightHip": {
+            "angle": 177,
+            "tolerance": 20,
+            "weight": 1
+          },
+          "leftKnee": {
+            "angle": 175,
+            "tolerance": 20,
+            "weight": 1
+          },
+          "rightKnee": {
+            "angle": 178,
+            "tolerance": 20,
+            "weight": 1
+          },
+          "torsoLean": {
+            "angle": 1,
+            "tolerance": 20,
+            "weight": 1
+          }
+        },
+        "hands": {},
+        "face": null
+      },
+      "cues": {
+        "BEND_ELBOW_LEFT": {
+          "title": "Taruh tangan kiri di pinggang",
+          "detail": "Badan membelakangi kamera, lalu menoleh"
+        }
+      },
+      "match": {
+        "enter": 0.85,
+        "exit": 0.75,
+        "holdMs": 600,
+        "smoothing": 0.3,
+        "minVisible": 18,
+        "minBodyHeight": 0.5,
+        "maxBodyHeight": 0.95,
+        "handTolerance": 0.35,
+        "pitchTolerance": 10,
+        "yawTolerance": 15
+      }
+    },
+    {
+      "slug": "crouch",
+      "title": "Jongkok",
+      "template": {
+        "joints": {
+          "leftHip": {
+            "angle": 55,
+            "tolerance": 25,
+            "weight": 1
+          },
+          "rightHip": {
+            "angle": 55,
+            "tolerance": 25,
+            "weight": 1
+          },
+          "leftKnee": {
+            "angle": 55,
+            "tolerance": 25,
+            "weight": 2
+          },
+          "rightKnee": {
+            "angle": 55,
+            "tolerance": 25,
+            "weight": 2
+          }
+        },
+        "hands": {},
+        "face": {
+          "smileMin": 0.6,
+          "pitch": 0,
+          "yaw": 0
+        }
+      },
+      "cues": {
+        "BEND_KNEES": {
+          "title": "Jongkok lebih rendah",
+          "detail": "Tekuk kedua lututmu"
+        }
+      },
+      "match": {
+        "enter": 0.85,
+        "exit": 0.75,
+        "holdMs": 600,
+        "smoothing": 0.3,
+        "minVisible": 25,
+        "minBodyHeight": 0.5,
+        "maxBodyHeight": 0.95,
+        "handTolerance": 0.35,
+        "pitchTolerance": 10,
+        "yawTolerance": 15
+      }
+    }
+  ]
+}
