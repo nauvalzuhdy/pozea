@@ -1,6 +1,6 @@
 import { Link, type Href } from 'expo-router';
 import type { ReactNode } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View, type StyleProp, type ViewStyle } from 'react-native';
 
 import { colors, radius, spacing } from '@/core/theme';
 
@@ -20,13 +20,62 @@ export function Body({ children }: { children: ReactNode }) {
   return <Text style={styles.body}>{children}</Text>;
 }
 
-export function PrimaryButton({ label, href }: { label: string; href: Href }) {
-  return (
+export type ButtonVariant = 'blue' | 'light' | 'gradient';
+
+type PrimaryButtonProps = {
+  label: string;
+  variant?: ButtonVariant;
+  style?: StyleProp<ViewStyle>;
+} & ({ href: Href; onPress?: never } | { onPress: () => void; href?: never });
+
+export function PrimaryButton({ label, href, onPress, variant = 'blue', style }: PrimaryButtonProps) {
+  const button = (
+    <Pressable
+      onPress={onPress}
+      accessibilityRole="button"
+      style={({ pressed }) => [styles.primary, variantStyles[variant], pressed && styles.pressed, style]}
+    >
+      <Text style={[styles.primaryLabel, variant === 'light' && styles.primaryLabelDark]}>{label}</Text>
+    </Pressable>
+  );
+  return href ? (
     <Link href={href} asChild>
-      <Pressable style={styles.primary} accessibilityRole="button">
-        <Text style={styles.primaryLabel}>{label}</Text>
-      </Pressable>
+      {button}
     </Link>
+  ) : (
+    button
+  );
+}
+
+/** Text-only button for secondary actions such as Skip or footer links. */
+export function TextButton({
+  label,
+  onPress,
+  size = 'md',
+}: {
+  label: string;
+  onPress: () => void;
+  size?: 'sm' | 'md';
+}) {
+  return (
+    <Pressable onPress={onPress} accessibilityRole="button" hitSlop={spacing.md}>
+      {({ pressed }) => (
+        <Text style={[size === 'sm' ? styles.textButtonSm : styles.textButton, pressed && styles.pressedText]}>
+          {label}
+        </Text>
+      )}
+    </Pressable>
+  );
+}
+
+/** Small pill label, e.g. "LIVE POSE GUIDE", "PRO" or "Save 45%". */
+export function Badge({ label, tone = 'blue' }: { label: string; tone?: 'blue' | 'green' | 'outline' }) {
+  return (
+    <View style={[styles.badge, badgeTones[tone]]}>
+      <Text style={[styles.badgeLabel, tone === 'green' && styles.badgeLabelDark, tone === 'outline' && styles.badgeLabelCyan]}>
+        {label}
+      </Text>
+    </View>
   );
 }
 
@@ -59,11 +108,24 @@ const styles = StyleSheet.create({
   primary: {
     alignSelf: 'stretch',
     alignItems: 'center',
-    backgroundColor: colors.blue,
     borderRadius: radius.pill,
     paddingVertical: spacing.lg,
   },
+  pressed: { opacity: 0.85 },
   primaryLabel: { color: colors.textOnNavy, fontSize: 16, fontWeight: '700' },
+  primaryLabelDark: { color: colors.textDark },
+  textButton: { color: colors.textOnNavy, fontSize: 16, fontWeight: '600' },
+  textButtonSm: { color: colors.mutedOnNavy, fontSize: 13 },
+  pressedText: { opacity: 0.6 },
+  badge: {
+    alignSelf: 'flex-start',
+    borderRadius: radius.pill,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.xs,
+  },
+  badgeLabel: { color: colors.textOnNavy, fontSize: 12, fontWeight: '800', letterSpacing: 0.5 },
+  badgeLabelDark: { color: colors.textDark },
+  badgeLabelCyan: { color: colors.cyan },
   chip: {
     borderColor: colors.navyBorder,
     borderRadius: radius.pill,
@@ -74,4 +136,16 @@ const styles = StyleSheet.create({
   chipSelected: { backgroundColor: colors.blue, borderColor: colors.blue },
   chipLabel: { color: colors.mutedOnNavy, fontSize: 15, fontWeight: '600' },
   chipLabelSelected: { color: colors.textOnNavy },
+});
+
+const variantStyles = StyleSheet.create({
+  blue: { backgroundColor: colors.blue },
+  light: { backgroundColor: colors.light },
+  gradient: { backgroundColor: colors.blue, backgroundImage: `linear-gradient(90deg, ${colors.blue}, #4FA8FF)` },
+});
+
+const badgeTones = StyleSheet.create({
+  blue: { backgroundColor: colors.blue },
+  green: { backgroundColor: colors.green },
+  outline: { borderWidth: 1.5, borderColor: colors.cyan },
 });
