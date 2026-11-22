@@ -20,8 +20,15 @@ function write(key: string, value: unknown): void {
 }
 
 export type PoseEngineSetting = 'mlkit' | 'mediapipe';
+export type LanguageSetting = 'en' | 'id';
 
 export const settings = {
+  /** App language picked by the user; null means follow the phone language. */
+  language: () => read<LanguageSetting | null>('app.language', null),
+  setLanguage: (value: LanguageSetting) => write('app.language', value),
+  /** Set once the user leaves the first-run onboarding (finished or skipped). */
+  onboardingDone: () => read('app.onboardingDone', false),
+  setOnboardingDone: (value: boolean) => write('app.onboardingDone', value),
   /** Developer setting: which model runs the live guidance. */
   poseEngine: () => read<PoseEngineSetting>('dev.poseEngine', 'mediapipe'),
   setPoseEngine: (value: PoseEngineSetting) => write('dev.poseEngine', value),
